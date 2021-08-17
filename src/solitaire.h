@@ -1,3 +1,4 @@
+#pragma once
 #include "cards.h"
 #include <array>
 
@@ -11,6 +12,11 @@ class Solitaire {
     void moveTabToBuild(const int fromTab, const int toBuild);
     void moveBuildToTab(const int fromBuild, const int toTab);
     void moveDiscToTab(const int toTab);
+
+    Deck getDeck();
+    std::array<Deck, 7> getTableaus();
+    std::array<Deck, 4> getBuild();
+    Deck getDiscard();
 
     private:
     std::array<Deck, 7> tableaus;

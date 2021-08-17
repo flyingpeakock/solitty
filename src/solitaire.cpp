@@ -181,3 +181,19 @@ bool Solitaire::isWon() {
     }
     return false;
 }
+
+Deck Solitaire::getDeck() {
+    return deck;
+}
+
+std::array<Deck, 7> Solitaire::getTableaus() {
+    return tableaus;
+}
+
+std::array<Deck, 4> Solitaire::getBuild() {
+    return build;
+}
+
+Deck Solitaire::getDiscard() {
+    return discard;
+}
