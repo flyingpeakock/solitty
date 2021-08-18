@@ -57,6 +57,8 @@ void Window::print() {
 
     printDeck();
     printDiscard();
+    printTableaus();
+    printBuild();
     refresh();
 }
 
@@ -64,7 +66,12 @@ void Window::printDeck() {
     int row = 0;
     std::wstringstream stream;
     Deck deck = sol.getDeck();
-    deck[0].print(stream);
+    if (deck.size() == 0) {
+        Card::printEmpty(stream);
+    }
+    else {
+        deck.back().print(stream);
+    }
     std::vector<std::wstring> strings = splitCardString(stream);
 
     for (auto &str : strings) {
@@ -97,5 +104,60 @@ void Window::printDiscard() {
             mvaddwstr(row++, col, str.c_str());
         }
         col += 4;
+    }
+}
+
+void Window::printTableaus() {
+    auto tabs = sol.getTableaus();
+    int col = leftEdge;
+    for (auto &tab : tabs) {
+        // Checking if any cards in tab
+        int row = cardHeight + 1;
+        if (tab.size() == 0) {
+            std::wstringstream stream;
+            Card::printEmpty(stream);
+            auto str = splitCardString(stream);
+            for (auto i = 0; i < str.size(); i++) {
+                mvaddwstr(row + i, col, str[i].c_str());
+            }
+            col += cardWidth + 1;
+            continue;
+        }
+        for (auto &card : tab) {
+            std::wstringstream stream;
+            card.print(stream);
+            auto str = splitCardString(stream);
+            for (auto i = 0; i < str.size(); i++) {
+                mvaddwstr(row + i, col, str[i].c_str());
+            }
+            row += 2;
+        }
+        col += cardWidth + 1;
+    }
+}
+
+void Window::printBuild() {
+    int row = 0;
+    int col = (cardWidth * 3) + 3 + leftEdge;
+    auto build = sol.getBuild();
+    for (auto &b : build) {
+        if (b.size() == 0) {
+            std::wstringstream stream;
+            Card::printEmpty(stream);
+            auto str = splitCardString(stream);
+            for (auto i = 0; i < str.size(); i++) {
+                mvaddwstr(row + i, col, str[i].c_str());
+            }
+            col += cardWidth + 1;
+            continue;
+        }
+        Card topCard = b.back();
+        std::wstringstream stream;
+        topCard.print(stream);
+        auto str = splitCardString(stream);
+        for (auto i = 0; i < str.size(); i++) {
+            mvaddwstr(row + i, col, str[i].c_str());
+        }
+        col += cardWidth + 1;
     }
 }
