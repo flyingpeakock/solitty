@@ -165,3 +165,7 @@ int Card::rank() {
 Suit Card::shape() {
     return suit;
 }
+
+Facing Card::getFacing() {
+    return facing;
+}

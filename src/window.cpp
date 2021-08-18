@@ -17,14 +17,30 @@ void Window::init() {
     cbreak(); // Get input before enter is pressed
     noecho(); // Don't show key presses
     keypad(stdscr, true); // Allow the use of arrow keys
+    curs_set(0); // Hide the cursor
 
     if (has_colors()) {
         // TODO: Add color pairs that will be defined in config.h
         use_default_colors();
         start_color();
+        init_pair(1, FOREGROUND_COLOR, BACKGROUND_COLOR);
+        init_pair(2, RED_CARD_COLOR, CARD_BACKGROUND_COLOR);
+        init_pair(3, BLACK_CARD_COLOR, CARD_BACKGROUND_COLOR);
+        init_pair(4, BACK_CARD_COLOR, CARD_BACKGROUND_COLOR);
+        init_pair(5, EMPTY_CARD_COLOR, CARD_BACKGROUND_COLOR);
     }
     getmaxyx(stdscr, maxY, maxX);
     calcLeftEdge();
+    clear();
+}
+
+void Window::clear() {
+    move(0,0);
+    attron(COLOR_PAIR(1));
+    for (auto i = 0; i < maxY*maxX; i++) {
+        addch(' ');
+    }
+    attroff(COLOR_PAIR(1));
 }
 
 void Window::calcLeftEdge() {
@@ -74,9 +90,11 @@ void Window::printDeck() {
     }
     std::vector<std::wstring> strings = splitCardString(stream);
 
+    attron(COLOR_PAIR(4));
     for (auto &str : strings) {
         mvaddwstr(row++, leftEdge, str.c_str());
     }
+    attroff(COLOR_PAIR(4));
 }
 
 void Window::printDiscard() {
@@ -87,9 +105,11 @@ void Window::printDiscard() {
         Card::printEmpty(stream);
         std::vector<std::wstring> strings = splitCardString(stream);
         int row = 0;
+        attron(COLOR_PAIR(5));
         for (auto &str : strings) {
             mvaddwstr(row++, leftEdge + cardWidth + 1, str.c_str());
         }
+        attroff(COLOR_PAIR(5));
         return;
     }
 
@@ -100,9 +120,17 @@ void Window::printDiscard() {
         card.print(stream);
         std::vector<std::wstring> strings = splitCardString(stream);
         int row = 0;
+        if (card.color() == Color::BLACK) {
+            attron(COLOR_PAIR(3));
+        }
+        else if (card.color() == Color::RED) {
+            attron(COLOR_PAIR(2));
+        }
         for (auto &str : strings) {
             mvaddwstr(row++, col, str.c_str());
         }
+        attroff(COLOR_PAIR(2));
+        attroff(COLOR_PAIR(3));
         col += 4;
     }
 }
@@ -117,9 +145,11 @@ void Window::printTableaus() {
             std::wstringstream stream;
             Card::printEmpty(stream);
             auto str = splitCardString(stream);
+            attron(COLOR_PAIR(5));
             for (auto i = 0; i < str.size(); i++) {
                 mvaddwstr(row + i, col, str[i].c_str());
             }
+            attroff(COLOR_PAIR(5));
             col += cardWidth + 1;
             continue;
         }
@@ -127,9 +157,21 @@ void Window::printTableaus() {
             std::wstringstream stream;
             card.print(stream);
             auto str = splitCardString(stream);
+            if (card.getFacing() == Facing::BACK) {
+                attron(COLOR_PAIR(4));
+            }
+            else if (card.color() == Color::BLACK) {
+                attron(COLOR_PAIR(3));
+            }
+            else {
+                attron(COLOR_PAIR(2));
+            }
             for (auto i = 0; i < str.size(); i++) {
                 mvaddwstr(row + i, col, str[i].c_str());
             }
+            attroff(COLOR_PAIR(2));
+            attroff(COLOR_PAIR(3));
+            attroff(COLOR_PAIR(4));
             row += 2;
         }
         col += cardWidth + 1;
@@ -145,9 +187,11 @@ void Window::printBuild() {
             std::wstringstream stream;
             Card::printEmpty(stream);
             auto str = splitCardString(stream);
+            attron(COLOR_PAIR(5));
             for (auto i = 0; i < str.size(); i++) {
                 mvaddwstr(row + i, col, str[i].c_str());
             }
+            attroff(COLOR_PAIR(5));
             col += cardWidth + 1;
             continue;
         }
@@ -155,9 +199,17 @@ void Window::printBuild() {
         std::wstringstream stream;
         topCard.print(stream);
         auto str = splitCardString(stream);
+        if (topCard.color() == Color::BLACK) {
+            attron(COLOR_PAIR(3));
+        }
+        else {
+            attron(COLOR_PAIR(2));
+        }
         for (auto i = 0; i < str.size(); i++) {
             mvaddwstr(row + i, col, str[i].c_str());
         }
+        attroff(COLOR_PAIR(2));
+        attroff(COLOR_PAIR(3));
         col += cardWidth + 1;
     }
 }

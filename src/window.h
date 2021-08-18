@@ -10,6 +10,8 @@ class Window {
     private:
     Solitaire sol;
 
+    void clear();
+
     static const int cardWidth = 7;
     static const int cardHeight = 5;
 

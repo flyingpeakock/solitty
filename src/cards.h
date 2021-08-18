@@ -26,6 +26,7 @@ class Card {
     void flip();
     void flipDown();
     void flipUp();
+    Facing getFacing();
 
     private:
     Facing facing;
