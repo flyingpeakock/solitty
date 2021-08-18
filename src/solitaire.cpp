@@ -7,7 +7,6 @@
 Solitaire::Solitaire() {
     deck = buildDeck();
     buildTableaus();
-    placeDiscard();
 }
 
 Deck Solitaire::buildDeck() {
@@ -38,8 +37,8 @@ Deck Solitaire::buildDeck() {
 }
 
 Card Solitaire::deal() {
-    Card card = deck[0];
-    deck.erase(deck.begin());
+    Card card = deck.back();
+    deck.pop_back();
     return card;
 }
 
@@ -51,7 +50,7 @@ void Solitaire::buildTableaus() {
     }
 
     for (auto &tab: tableaus) {
-        tab.end()->flip();
+        tab.back().flipUp();
     }
 }
 
@@ -63,14 +62,14 @@ void Solitaire::placeDiscard() {
         }
         discard.clear();
     }
-    else if (deck.size() < 3) {
+    else if (deck.size() <= 3) {
         for (auto &card : deck) {
-            discard.emplace_back(deal());
+            discard.push_back(deal());
         }
     }
     else {
         for (auto i = 0; i < 3; i++) {
-            discard.emplace_back(deal());
+            discard.push_back(deal());
         }
     }
 
@@ -99,7 +98,7 @@ void Solitaire::moveTabtoTab(const int fromTab, const int pos, const int toTab) 
     }
 
     // Flipping newly uncovered card
-    tableaus[fromTab].end() -> flipUp();
+    tableaus[fromTab].back().flipUp();
 }
 
 void Solitaire::moveTabToBuild(const int fromTab, const int toBuild) {
@@ -110,8 +109,8 @@ void Solitaire::moveTabToBuild(const int fromTab, const int toBuild) {
             return;
         
         build[toBuild].push_back(from);
-        tableaus[fromTab].erase(tableaus[fromTab].end());
-        tableaus[fromTab].end()->flipUp();
+        tableaus[fromTab].pop_back();
+        tableaus[fromTab].back().flipUp();
         return;
     }
 
@@ -127,8 +126,8 @@ void Solitaire::moveTabToBuild(const int fromTab, const int toBuild) {
     }
 
     build[toBuild].push_back(from);
-    tableaus[fromTab].erase(tableaus[fromTab].end());
-    tableaus[fromTab].end()->flipUp();
+    tableaus[fromTab].pop_back();
+    tableaus[fromTab].back().flipUp();
 }
 
 void Solitaire::moveBuildToTab(const int fromBuild, const int toTab) {
@@ -146,7 +145,7 @@ void Solitaire::moveBuildToTab(const int fromBuild, const int toTab) {
     }
 
     tableaus[toTab].push_back(from);
-    build[fromBuild].erase(build[fromBuild].end());
+    build[fromBuild].pop_back();
 }
 
 void Solitaire::moveDiscToTab(const int toTab) {
@@ -155,7 +154,7 @@ void Solitaire::moveDiscToTab(const int toTab) {
         if (from.rank() == 13) {
             // King, must be placed on empty tab
             tableaus[toTab].push_back(from);
-            discard.erase(discard.end());
+            discard.pop_back();
         }
         return;
     }
@@ -172,7 +171,7 @@ void Solitaire::moveDiscToTab(const int toTab) {
     }
 
     tableaus[toTab].push_back(from);
-    discard.erase(discard.end());
+    discard.pop_back();
 }
 
 bool Solitaire::isWon() {
