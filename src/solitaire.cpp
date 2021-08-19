@@ -101,6 +101,34 @@ void Solitaire::moveTabtoTab(const int fromTab, const int pos, const int toTab) 
     tableaus[fromTab].back().flipUp();
 }
 
+void Solitaire::moveDiscToBuild(const int toBuild) {
+    Card from = discard.back();
+    if (build[toBuild].size() == 0) {
+        // Trying to move non ace to empty build deck
+        if (from.rank() != 1) {
+            return;
+        }
+
+        build[toBuild].push_back(from);
+        discard.pop_back();
+        return;
+    }
+
+    Card to = build[toBuild].back();
+    if (from.shape() != to.shape()) {
+        // Trying to move onto the wrong build
+        return;
+    }
+
+    if (from.rank() - to.rank() != 1) {
+        // Not ascending
+        return;
+    }
+
+    build[toBuild].push_back(from);
+    discard.pop_back();
+}
+
 void Solitaire::moveTabToBuild(const int fromTab, const int toBuild) {
     Card from = tableaus[fromTab].back();
     if (build[toBuild].size() == 0) {

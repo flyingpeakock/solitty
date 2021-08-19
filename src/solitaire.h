@@ -12,6 +12,7 @@ class Solitaire {
     void moveTabToBuild(const int fromTab, const int toBuild);
     void moveBuildToTab(const int fromBuild, const int toTab);
     void moveDiscToTab(const int toTab);
+    void moveDiscToBuild(const int toBuild);
 
     Deck getDeck();
     std::array<Deck, 7> getTableaus();

@@ -31,9 +31,50 @@ void Game::mainLoop() {
             playing = false;
             break;
             case Keybinds::SELECT:
+            select();
             break;
         }
         win.print();
+    }
+}
+
+void Game::select() {
+    Position current = win.getFocus(); // from
+    Position selected = win.getSelect(); // to
+
+    if (selected.stack == Stack::NONE) {
+        win.select(current);
+        return;
+    }
+    if (current.stack == Stack::TABLEAU && selected.stack == Stack::TABLEAU) {
+        int pos = current.index % 100;
+        sol.moveTabtoTab(current.index / 100, pos, selected.index / 100);
+        return;
+    }
+
+    if (current.stack == Stack::BUILD && selected.stack == Stack::TABLEAU) {
+        Deck tab = sol.getTableaus()[selected.index / 100];
+        int tabIdx = selected.index % 100;
+        if (tabIdx != tab.size() - 1) {
+            // Cannot move to build unless bottom card in stack
+            return;
+        }
+        sol.moveTabToBuild(tabIdx, current.index);
+        return;
+    }
+
+    if (current.stack == Stack::TABLEAU && selected.stack == Stack::BUILD) {
+        sol.moveBuildToTab(selected.index, current.index / 100);
+        return;
+    }
+
+    if (current.stack == Stack::TABLEAU && selected.stack == Stack::DISCARD) {
+        sol.moveDiscToTab(current.index / 100);
+        return;
+    }
+
+    if (current.stack == Stack::BUILD && selected.stack == Stack::DISCARD) {
+        sol.moveDiscToBuild(current.index);
     }
 }
 
