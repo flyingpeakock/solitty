@@ -288,3 +288,11 @@ void Window::focus(Position pos) {
 void Window::select(Position pos) {
     selected = pos;
 }
+
+Position Window::getFocus() {
+    return focused;
+}
+
+Position Window::getSelect() {
+    return selected;
+}

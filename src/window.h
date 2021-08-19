@@ -12,6 +12,9 @@ class Window {
     void focus(Position pos);
     void select(Position pos);
 
+    Position getFocus();
+    Position getSelect();
+
     private:
     Solitaire sol;
 
