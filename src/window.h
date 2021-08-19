@@ -5,7 +5,7 @@
 class Window {
     public:
     Window();
-    Window(Solitaire &s);
+    Window(Solitaire *s);
     ~Window();
     void print();
 
@@ -15,8 +15,10 @@ class Window {
     Position getFocus();
     Position getSelect();
 
+    void printMessage(std::string message);
+
     private:
-    Solitaire sol;
+    Solitaire *sol;
 
     Position focused;
     Position selected;

@@ -2,7 +2,6 @@
 #include <algorithm>
 #include <random>
 #include <chrono>
-#include <iostream>
 
 Solitaire::Solitaire() {
     deck = buildDeck();
@@ -78,18 +77,18 @@ void Solitaire::placeDiscard() {
     }
 }
 
-void Solitaire::moveTabtoTab(const int fromTab, const int pos, const int toTab) {
+bool Solitaire::moveTabtoTab(const int fromTab, const int pos, const int toTab) {
     Card from = tableaus[fromTab][pos];
     Card to = tableaus[toTab][tableaus[toTab].size()];
 
     if (from.color() == to.color()) {
         // Cannot move since colors are the same
-        return;
+        return false;
     }
 
     if (to.rank() - from.rank() != 1) {
         // Connot move since not ascending
-        return;
+        return false;
     }
 
     while (tableaus[fromTab].size() > pos) {
@@ -99,107 +98,119 @@ void Solitaire::moveTabtoTab(const int fromTab, const int pos, const int toTab) 
 
     // Flipping newly uncovered card
     tableaus[fromTab].back().flipUp();
+    return true;
 }
 
-void Solitaire::moveDiscToBuild(const int toBuild) {
+bool Solitaire::moveDiscToBuild(const int toBuild) {
+    if (discard.size() == 0) {
+        return false;
+    }
     Card from = discard.back();
     if (build[toBuild].size() == 0) {
         // Trying to move non ace to empty build deck
         if (from.rank() != 1) {
-            return;
+            return false;
         }
 
         build[toBuild].push_back(from);
         discard.pop_back();
-        return;
+        return true;
     }
 
     Card to = build[toBuild].back();
     if (from.shape() != to.shape()) {
         // Trying to move onto the wrong build
-        return;
+        return false;
     }
 
     if (from.rank() - to.rank() != 1) {
         // Not ascending
-        return;
+        return false;
     }
 
     build[toBuild].push_back(from);
     discard.pop_back();
+    return true;
 }
 
-void Solitaire::moveTabToBuild(const int fromTab, const int toBuild) {
+bool Solitaire::moveTabToBuild(const int fromTab, const int toBuild) {
     Card from = tableaus[fromTab].back();
     if (build[toBuild].size() == 0) {
         // Trying to move non ace to empty build deck
         if (from.rank() != 1)
-            return;
+            return false;
         
         build[toBuild].push_back(from);
         tableaus[fromTab].pop_back();
         tableaus[fromTab].back().flipUp();
-        return;
+        return true;
     }
 
     Card to = build[toBuild].back();
     if (from.shape() != to.shape()) {
         // Trying to move onto the wrong build
-        return;
+        return false;
     }
 
     if (from.rank() - to.rank() != 1) {
         // Not ascending
-        return;
+        return false;
     }
 
     build[toBuild].push_back(from);
     tableaus[fromTab].pop_back();
     tableaus[fromTab].back().flipUp();
+    return true;
 }
 
-void Solitaire::moveBuildToTab(const int fromBuild, const int toTab) {
+bool Solitaire::moveBuildToTab(const int fromBuild, const int toTab) {
     Card from = build[fromBuild].back();
     Card to = tableaus[toTab].back();
 
     if (from.color() == to.color()) {
         // Placing same color
-        return;
+        return false;
     }
 
     if (to.rank() - from.rank() != 1) {
         // Not ascending
-        return;
+        return false;
     }
 
     tableaus[toTab].push_back(from);
     build[fromBuild].pop_back();
+    return true;
 }
 
-void Solitaire::moveDiscToTab(const int toTab) {
+bool Solitaire::moveDiscToTab(const int toTab) {
+    if (discard.size() == 0) {
+        return false;
+    }
     Card from = discard.back();
     if (tableaus[toTab].size() == 0) {
         if (from.rank() == 13) {
             // King, must be placed on empty tab
             tableaus[toTab].push_back(from);
             discard.pop_back();
+            return true;
         }
-        return;
+        return false;
     }
     
     Card to = tableaus[toTab].back();
     if (to.color() == from.color()) {
         // Not different colors
-        return;
+        return false;
     }
 
     if (to.rank() - from.rank() != 1) {
         // Not ascending
-        return;
+        return false;
     }
 
     tableaus[toTab].push_back(from);
     discard.pop_back();
+    return true;
 }
 
 bool Solitaire::isWon() {

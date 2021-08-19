@@ -8,11 +8,11 @@ class Solitaire {
     bool isWon();
     void placeDiscard();
 
-    void moveTabtoTab(const int fromTab, const int pos, const int toTab);
-    void moveTabToBuild(const int fromTab, const int toBuild);
-    void moveBuildToTab(const int fromBuild, const int toTab);
-    void moveDiscToTab(const int toTab);
-    void moveDiscToBuild(const int toBuild);
+    bool moveTabtoTab(const int fromTab, const int pos, const int toTab);
+    bool moveTabToBuild(const int fromTab, const int toBuild);
+    bool moveBuildToTab(const int fromBuild, const int toTab);
+    bool moveDiscToTab(const int toTab);
+    bool moveDiscToBuild(const int toBuild);
 
     Deck getDeck();
     std::array<Deck, 7> getTableaus();

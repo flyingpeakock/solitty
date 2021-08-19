@@ -3,7 +3,7 @@
 #include <ncurses.h>
 #include <sstream>
 
-Window::Window(Solitaire &s) : sol(s) {
+Window::Window(Solitaire *s) : sol(s) {
     init();
 }
 
@@ -72,9 +72,9 @@ void Window::print() {
     int oldY = maxY;
     int oldX = maxX;
     getmaxyx(stdscr, maxY, maxX);
+    clear();
     if (oldY != maxY || oldX != maxX) {
         // Screen has been resized
-        clear();
         calcLeftEdge();
     }
 
@@ -88,7 +88,7 @@ void Window::print() {
 void Window::printDeck() {
     int row = 0;
     std::wstringstream stream;
-    Deck deck = sol.getDeck();
+    Deck deck = sol->getDeck();
     if (deck.size() == 0) {
         Card::printEmpty(stream);
     }
@@ -114,7 +114,7 @@ void Window::printDeck() {
 }
 
 void Window::printDiscard() {
-    Deck discard = sol.getDiscard();
+    Deck discard = sol->getDiscard();
     if (discard.size() == 0) {
         // Print empty card
         std::wstringstream stream;
@@ -169,7 +169,7 @@ void Window::printDiscard() {
 }
 
 void Window::printTableaus() {
-    auto tabs = sol.getTableaus();
+    auto tabs = sol->getTableaus();
     int col = leftEdge;
     // for (auto &tab : tabs) {
     for (auto i = 0; i < tabs.size(); i++) {
@@ -234,7 +234,7 @@ void Window::printTableaus() {
 void Window::printBuild() {
     int row = 0;
     int col = (cardWidth * 3) + 3 + leftEdge;
-    auto build = sol.getBuild();
+    auto build = sol->getBuild();
     // for (auto &b : build) {
     for (auto i = 0; i < build.size(); i++) {
         auto b = build[i];
@@ -295,4 +295,10 @@ Position Window::getFocus() {
 
 Position Window::getSelect() {
     return selected;
+}
+
+void Window::printMessage(std::string message) {
+    int length = message.size();
+    move(maxY, (maxX - length) / 2);
+    addstr(message.c_str());
 }

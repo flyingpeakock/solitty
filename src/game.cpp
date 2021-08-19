@@ -1,14 +1,14 @@
 #include "game.h"
 #include <ncurses.h>
 
-Game::Game() {
-    win = Window(sol);
+Game::Game() : win(&sol){
     win.print();
 }
 
 void Game::mainLoop() {
     bool playing = true;
     while (!sol.isWon() && playing) {
+        win.print();
         wchar_t input = getch();
         switch (input) {
             case Keybinds::DOWN:
@@ -34,7 +34,6 @@ void Game::mainLoop() {
             select();
             break;
         }
-        win.print();
     }
 }
 
@@ -42,13 +41,26 @@ void Game::select() {
     Position current = win.getFocus(); // from
     Position selected = win.getSelect(); // to
 
+    if (current.stack == Stack::DECK) {
+        sol.placeDiscard();
+        return;
+    }
+
     if (selected.stack == Stack::NONE) {
         win.select(current);
         return;
     }
+
+    if (current.stack == selected.stack && current.index == selected.index) {
+        win.select({Stack::NONE, 0});
+        return;
+    }
+
     if (current.stack == Stack::TABLEAU && selected.stack == Stack::TABLEAU) {
         int pos = current.index % 100;
-        sol.moveTabtoTab(current.index / 100, pos, selected.index / 100);
+        if (sol.moveTabtoTab(current.index / 100, pos, selected.index / 100)) {
+            win.select({Stack::NONE, 0});
+        }
         return;
     }
 
@@ -59,22 +71,30 @@ void Game::select() {
             // Cannot move to build unless bottom card in stack
             return;
         }
-        sol.moveTabToBuild(tabIdx, current.index);
+        if (sol.moveTabToBuild(tabIdx, current.index)) {
+            win.select({Stack::NONE, 0});
+        }
         return;
     }
 
     if (current.stack == Stack::TABLEAU && selected.stack == Stack::BUILD) {
-        sol.moveBuildToTab(selected.index, current.index / 100);
+        if (sol.moveBuildToTab(selected.index, current.index / 100)) {
+            win.select({Stack::NONE, 0});
+        }
         return;
     }
 
     if (current.stack == Stack::TABLEAU && selected.stack == Stack::DISCARD) {
-        sol.moveDiscToTab(current.index / 100);
+        if (sol.moveDiscToTab(current.index / 100)) {
+            win.select({Stack::NONE, 0});
+        }
         return;
     }
 
     if (current.stack == Stack::BUILD && selected.stack == Stack::DISCARD) {
-        sol.moveDiscToBuild(current.index);
+        if (sol.moveDiscToBuild(current.index)) {
+            win.select({Stack::NONE, 0});
+        }
     }
 }
 
