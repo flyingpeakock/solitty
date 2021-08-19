@@ -135,10 +135,36 @@ void Game::down() {
     }
 }
 
-void Game::left() {
-
+void Game::right() {
+    Position current = win.getFocus();
+    switch (current.stack) {
+        case Stack::DECK:
+        win.focus({Stack::DISCARD, 0});
+        break;
+        case Stack::DISCARD:
+        win.focus({Stack::BUILD, 0});
+        break;
+        case Stack::BUILD:
+        if (current.index < 2) {
+            win.focus({Stack::BUILD, current.index + 1});
+        }
+        else {
+            win.focus({Stack::DECK, 0});
+        }
+        break;
+        case Stack::TABLEAU:
+        {
+            int tabIdx = current.index / 100;
+            if (tabIdx == 6) {
+                focusLastInTab(0);
+                return;
+            }
+            focusLastInTab(tabIdx + 1);
+        }
+        break;
+    }
 }
 
-void Game::right() {
+void Game::left() {
 
 }
