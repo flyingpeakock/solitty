@@ -213,3 +213,11 @@ void Window::printBuild() {
         col += cardWidth + 1;
     }
 }
+
+void Window::focus(Position pos) {
+    focused = pos;
+}
+
+void Window::select(Position pos) {
+    selected = pos;
+}

@@ -1,5 +1,6 @@
 #pragma once
 #include "solitaire.h"
+#include "position.h"
 
 class Window {
     public:
@@ -7,8 +8,14 @@ class Window {
     ~Window();
     void print();
 
+    void focus(Position pos);
+    void select(Position pos);
+
     private:
     Solitaire sol;
+
+    Position focused;
+    Position selected;
 
     void clear();
 
