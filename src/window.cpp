@@ -204,10 +204,10 @@ void Window::printTableaus() {
             else {
                 attron(COLOR_PAIR(2));
             }
-            if (focused.stack == Stack::TABLEAU && focused.index / 100 == i && focused.index % 100 >= j) {
+            if (focused.stack == Stack::TABLEAU && focused.index / 100 == i && focused.index % 100 == j) {
                 attron(A_BOLD);
             }
-            else if (selected.stack == Stack::TABLEAU && selected.index / 100 == i && selected.index & 100 >= i) {
+            else if (selected.stack == Stack::TABLEAU && selected.index / 100 == i && selected.index % 100 <= j) {
                 attron(A_BLINK);
             }
             for (auto i = 0; i < str.size(); i++) {
