@@ -12,4 +12,5 @@ class Game {
     void down();
     void left();
     void right();
+    void focusLastInTab(int tabIdx);
 };
