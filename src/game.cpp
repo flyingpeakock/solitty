@@ -92,7 +92,47 @@ void Game::up() {
 }
 
 void Game::down() {
-
+    Position current = win.getFocus();
+    switch (current.stack) {
+        case Stack::DISCARD:
+        // Down from discard takes you to bottom of tab 2
+        focusLastInTab(1);
+        break;
+        case Stack::DECK:
+        // Down from deck takes you to bottom of tab 1
+        focusLastInTab(0);
+        break;
+        case Stack::BUILD:
+        // Down from build takes you to current.index + 3 tab
+        focusLastInTab(current.index + 3);
+        break;
+        case Stack::TABLEAU:
+        // If not in bottom card in tab go down
+        // else tab 0 focus deck, tab 1, 2 focus discard
+        // 3-6 focus build - 3
+        {
+            Deck tab = sol.getTableaus()[current.index / 100];
+            for (auto i = (current.index % 100) + 1; i < tab.size(); i++) {
+                if (tab[i].getFacing() == Facing::FRONT) {
+                    win.focus({Stack::TABLEAU, current.index + 1});
+                    return;
+                }
+            }
+            int tabIdx = current.index / 100;
+            switch (tabIdx) {
+                case 0:
+                win.focus({Stack::DECK, 0});
+                break;
+                case 1:
+                case 2:
+                win.focus({Stack::DISCARD, 0});
+                break;
+                default:
+                win.focus({Stack::BUILD, (current.index / 100) - 3});
+            }
+        }
+        break;
+    }
 }
 
 void Game::left() {
