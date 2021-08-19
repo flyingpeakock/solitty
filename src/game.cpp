@@ -145,7 +145,7 @@ void Game::right() {
         win.focus({Stack::BUILD, 0});
         break;
         case Stack::BUILD:
-        if (current.index < 2) {
+        if (current.index < 3) {
             win.focus({Stack::BUILD, current.index + 1});
         }
         else {
@@ -166,5 +166,30 @@ void Game::right() {
 }
 
 void Game::left() {
-
+    Position current = win.getFocus();
+    switch (current.stack) {
+        case Stack::BUILD:
+        if (current.index > 0) {
+            win.focus({Stack::BUILD, current.index - 1});
+            return;
+        }
+        win.focus({Stack::DISCARD, 0});
+        break;
+        case Stack::DISCARD:
+        win.focus({Stack::DECK, 0});
+        break;
+        case Stack::DECK:
+        win.focus({Stack::BUILD, 3});
+        break;
+        case Stack::TABLEAU:
+        {
+            int tabIdx = current.index / 100;
+            if (tabIdx > 0) {
+                focusLastInTab(tabIdx - 1);
+                return;
+            }
+            focusLastInTab(6);
+        }
+        break;
+    }
 }
