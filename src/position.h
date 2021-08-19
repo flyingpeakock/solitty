@@ -5,6 +5,7 @@
  */
 
 enum Stack {
+    NONE,
     DECK,
     DISCARD,
     BUILD,

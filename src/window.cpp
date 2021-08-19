@@ -90,11 +90,20 @@ void Window::printDeck() {
     }
     std::vector<std::wstring> strings = splitCardString(stream);
 
+    if (focused.stack == Stack::DECK) {
+        attron(A_BOLD);
+    }
+    else if (selected.stack == Stack::DECK) {
+        attron(A_BLINK);
+    }
+
     attron(COLOR_PAIR(4));
     for (auto &str : strings) {
         mvaddwstr(row++, leftEdge, str.c_str());
     }
     attroff(COLOR_PAIR(4));
+    attroff(A_BOLD);
+    attroff(A_BLINK);
 }
 
 void Window::printDiscard() {
@@ -105,11 +114,19 @@ void Window::printDiscard() {
         Card::printEmpty(stream);
         std::vector<std::wstring> strings = splitCardString(stream);
         int row = 0;
+        if (selected.stack == Stack::DISCARD) {
+            attron(A_BLINK);
+        }
+        else if (focused.stack == Stack::DISCARD) {
+            attron(A_BOLD);
+        }
         attron(COLOR_PAIR(5));
         for (auto &str : strings) {
             mvaddwstr(row++, leftEdge + cardWidth + 1, str.c_str());
         }
         attroff(COLOR_PAIR(5));
+        attroff(A_BLINK);
+        attroff(A_BOLD);
         return;
     }
 
@@ -126,11 +143,20 @@ void Window::printDiscard() {
         else if (card.color() == Color::RED) {
             attron(COLOR_PAIR(2));
         }
+
+        if (i == discard.size() - 1 && focused.stack == Stack::DISCARD) {
+            attron(A_BOLD);
+        }
+        else if (i == discard.size() - 1 && selected.stack == Stack::DISCARD) {
+            attron(A_BLINK);
+        }
         for (auto &str : strings) {
             mvaddwstr(row++, col, str.c_str());
         }
         attroff(COLOR_PAIR(2));
         attroff(COLOR_PAIR(3));
+        attroff(A_BOLD);
+        attroff(A_BLINK);
         col += 4;
     }
 }
@@ -138,7 +164,9 @@ void Window::printDiscard() {
 void Window::printTableaus() {
     auto tabs = sol.getTableaus();
     int col = leftEdge;
-    for (auto &tab : tabs) {
+    // for (auto &tab : tabs) {
+    for (auto i = 0; i < tabs.size(); i++) {
+        auto tab = tabs[i];
         // Checking if any cards in tab
         int row = cardHeight + 1;
         if (tab.size() == 0) {
@@ -146,14 +174,24 @@ void Window::printTableaus() {
             Card::printEmpty(stream);
             auto str = splitCardString(stream);
             attron(COLOR_PAIR(5));
+            if (focused.stack == Stack::TABLEAU && focused.index / 100 == i) {
+                attron(A_BOLD);
+            }
+            else if (selected.stack == Stack::TABLEAU &&  selected.index / 100 == i) {
+                attron(A_BLINK);
+            }
             for (auto i = 0; i < str.size(); i++) {
                 mvaddwstr(row + i, col, str[i].c_str());
             }
             attroff(COLOR_PAIR(5));
+            attroff(A_BOLD);
+            attroff(A_BLINK);
             col += cardWidth + 1;
             continue;
         }
-        for (auto &card : tab) {
+        // for (auto &card : tab) {
+        for (auto j = 0; j < tab.size(); j++) {
+            auto card = tab[j];
             std::wstringstream stream;
             card.print(stream);
             auto str = splitCardString(stream);
@@ -166,12 +204,20 @@ void Window::printTableaus() {
             else {
                 attron(COLOR_PAIR(2));
             }
+            if (focused.stack == Stack::TABLEAU && focused.index / 100 == i && focused.index % 100 >= j) {
+                attron(A_BOLD);
+            }
+            else if (selected.stack == Stack::TABLEAU && selected.index / 100 == i && selected.index & 100 >= i) {
+                attron(A_BLINK);
+            }
             for (auto i = 0; i < str.size(); i++) {
                 mvaddwstr(row + i, col, str[i].c_str());
             }
             attroff(COLOR_PAIR(2));
             attroff(COLOR_PAIR(3));
             attroff(COLOR_PAIR(4));
+            attroff(A_BOLD);
+            attroff(A_BLINK);
             row += 2;
         }
         col += cardWidth + 1;
@@ -182,7 +228,17 @@ void Window::printBuild() {
     int row = 0;
     int col = (cardWidth * 3) + 3 + leftEdge;
     auto build = sol.getBuild();
-    for (auto &b : build) {
+    // for (auto &b : build) {
+    for (auto i = 0; i < build.size(); i++) {
+        auto b = build[i];
+
+        if (focused.stack == Stack::BUILD && focused.index == i) {
+            attron(A_BOLD);
+        }
+        else if (selected.stack == Stack::BUILD && selected.index == i) {
+            attron(A_BLINK);
+        }
+
         if (b.size() == 0) {
             std::wstringstream stream;
             Card::printEmpty(stream);
@@ -192,6 +248,8 @@ void Window::printBuild() {
                 mvaddwstr(row + i, col, str[i].c_str());
             }
             attroff(COLOR_PAIR(5));
+            attroff(A_BOLD);
+            attroff(A_BLINK);
             col += cardWidth + 1;
             continue;
         }
@@ -210,6 +268,8 @@ void Window::printBuild() {
         }
         attroff(COLOR_PAIR(2));
         attroff(COLOR_PAIR(3));
+        attroff(A_BOLD);
+        attroff(A_BLINK);
         col += cardWidth + 1;
     }
 }
