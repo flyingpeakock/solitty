@@ -39,3 +39,12 @@ enum Colors {
     EMPTY_CARD_COLOR = BACK_CARD_COLOR,
     CARD_BACKGROUND_COLOR = 7,
 };
+
+enum Keybinds {
+    QUIT = 'q',
+    LEFT = 'h',
+    DOWN = 'j',
+    UP = 'k',
+    RIGHT = 'l'
+    SELECT = ' ',
+}

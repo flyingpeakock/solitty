@@ -3,9 +3,11 @@
 #include <ncurses.h>
 #include <sstream>
 
+Window::Window(Solitaire &s) : sol(s) {
+    init();
+}
+
 Window::Window() {
-    setlocale(LC_ALL, "");
-    initscr();
     init();
 }
 
@@ -14,6 +16,8 @@ Window::~Window() {
 }
 
 void Window::init() {
+    setlocale(LC_ALL, "");
+    initscr();
     cbreak(); // Get input before enter is pressed
     noecho(); // Don't show key presses
     keypad(stdscr, true); // Allow the use of arrow keys

@@ -5,6 +5,7 @@
 class Window {
     public:
     Window();
+    Window(Solitaire &s);
     ~Window();
     void print();
 
