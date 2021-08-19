@@ -45,6 +45,6 @@ enum Keybinds {
     LEFT = 'h',
     DOWN = 'j',
     UP = 'k',
-    RIGHT = 'l'
+    RIGHT = 'l',
     SELECT = ' ',
-}
+};
