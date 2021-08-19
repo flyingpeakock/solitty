@@ -23,6 +23,9 @@ void Window::init() {
     keypad(stdscr, true); // Allow the use of arrow keys
     curs_set(0); // Hide the cursor
 
+    focused = {Stack::DECK, 0};
+    selected = {Stack::NONE, 0};
+
     if (has_colors()) {
         // TODO: Add color pairs that will be defined in config.h
         use_default_colors();
