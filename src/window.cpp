@@ -321,7 +321,9 @@ Position Window::getSelect() {
 
 void Window::printMessage(std::string message) {
     int length = message.size();
-    move(maxY, (maxX - length) / 2);
+    move(maxY / 2, (maxX - length) / 2);
+    attron(COLOR_PAIR(1));
     addstr(message.c_str());
+    attroff(COLOR_PAIR(1));
     refresh();
 }

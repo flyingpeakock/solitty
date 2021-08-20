@@ -40,6 +40,7 @@ void Game::mainLoop() {
     }
     timer.stop();
     if (sol.isWon()) {
+        win.print();
         win.printMessage(timer.timeTaken());
         getch();
     }
