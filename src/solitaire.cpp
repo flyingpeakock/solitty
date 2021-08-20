@@ -65,12 +65,14 @@ void Solitaire::placeDiscard() {
     }
     else if (deck.size() <= 3) {
         for (auto &card : deck) {
-            discard.push_back(deal());
+            // discard.push_back(deal());
+            discard.insert(discard.begin(), deal());
         }
     }
     else {
         for (auto i = 0; i < 3; i++) {
-            discard.push_back(deal());
+            // discard.push_back(deal());
+            discard.insert(discard.begin(), deal());
         }
     }
 
