@@ -100,7 +100,7 @@ void Window::printDeck() {
     if (focused.stack == Stack::DECK) {
         attron(A_BOLD);
     }
-    else if (selected.stack == Stack::DECK) {
+    if (selected.stack == Stack::DECK) {
         attron(A_BLINK);
     }
 
@@ -124,7 +124,7 @@ void Window::printDiscard() {
         if (selected.stack == Stack::DISCARD) {
             attron(A_BLINK);
         }
-        else if (focused.stack == Stack::DISCARD) {
+        if (focused.stack == Stack::DISCARD) {
             attron(A_BOLD);
         }
         attron(COLOR_PAIR(5));
@@ -176,7 +176,7 @@ void Window::printDiscard() {
         if (i == discard.size() - 1 && focused.stack == Stack::DISCARD) {
             attron(A_BOLD);
         }
-        else if (i == discard.size() - 1 && selected.stack == Stack::DISCARD) {
+        if (i == discard.size() - 1 && selected.stack == Stack::DISCARD) {
             attron(A_BLINK);
         }
         for (auto &str : strings) {
@@ -206,7 +206,7 @@ void Window::printTableaus() {
             if (focused.stack == Stack::TABLEAU && focused.index / 100 == i) {
                 attron(A_BOLD);
             }
-            else if (selected.stack == Stack::TABLEAU &&  selected.index / 100 == i) {
+            if (selected.stack == Stack::TABLEAU &&  selected.index / 100 == i) {
                 attron(A_BLINK);
             }
             for (auto i = 0; i < str.size(); i++) {
@@ -236,7 +236,7 @@ void Window::printTableaus() {
             if (focused.stack == Stack::TABLEAU && focused.index / 100 == i && focused.index % 100 == j) {
                 attron(A_BOLD);
             }
-            else if (selected.stack == Stack::TABLEAU && selected.index / 100 == i && selected.index % 100 <= j) {
+            if (selected.stack == Stack::TABLEAU && selected.index / 100 == i && selected.index % 100 <= j) {
                 attron(A_BLINK);
             }
             for (auto i = 0; i < str.size(); i++) {
@@ -264,7 +264,7 @@ void Window::printBuild() {
         if (focused.stack == Stack::BUILD && focused.index == i) {
             attron(A_BOLD);
         }
-        else if (selected.stack == Stack::BUILD && selected.index == i) {
+        if (selected.stack == Stack::BUILD && selected.index == i) {
             attron(A_BLINK);
         }
 
