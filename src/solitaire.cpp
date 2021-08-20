@@ -228,6 +228,13 @@ bool Solitaire::moveDiscToTab(const int toTab) {
 
 bool Solitaire::isWon() {
     if (deck.size() == 0 && discard.size() == 0) {
+        for (auto &tab : tableaus) {
+            for (auto &card : tab) {
+                if (card.getFacing() == Facing::BACK) {
+                    return false;
+                }
+            }
+        }
         return true;
     }
     return false;
