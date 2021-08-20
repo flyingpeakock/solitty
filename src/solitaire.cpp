@@ -79,7 +79,18 @@ void Solitaire::placeDiscard() {
 
 bool Solitaire::moveTabtoTab(const int fromTab, const int pos, const int toTab) {
     Card from = tableaus[fromTab][pos];
-    Card to = tableaus[toTab][tableaus[toTab].size()];
+
+    if (tableaus[toTab].size() == 0) {
+        if (from.rank() != 13)
+            return false;
+        while (tableaus[fromTab].size() > pos) {
+            tableaus[toTab].push_back(tableaus[fromTab][pos]);
+            tableaus[fromTab].erase(tableaus[fromTab].begin() + pos);
+        }
+        tableaus[fromTab].back().flipUp();
+        return true;
+    }
+    Card to = tableaus[toTab][tableaus[toTab].size() - 1];
 
     if (from.color() == to.color()) {
         // Cannot move since colors are the same

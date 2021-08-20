@@ -57,8 +57,8 @@ void Game::select() {
     }
 
     if (current.stack == Stack::TABLEAU && selected.stack == Stack::TABLEAU) {
-        int pos = current.index % 100;
-        if (sol.moveTabtoTab(current.index / 100, pos, selected.index / 100)) {
+        int pos = selected.index % 100;
+        if (sol.moveTabtoTab(selected.index / 100, pos, current.index / 100)) {
             win.select({Stack::NONE, 0});
         }
         return;
@@ -101,6 +101,8 @@ void Game::select() {
 void Game::focusLastInTab(int tabIdx) {
     Deck tab = sol.getTableaus()[tabIdx];
     int lastIndex = tab.size() - 1;
+    if (lastIndex < 0)
+        lastIndex = 0;
     win.focus({Stack::TABLEAU, (tabIdx * 100) + lastIndex});
 }
 
@@ -245,11 +247,11 @@ void Game::left() {
         case Stack::TABLEAU:
         {
             int tabIdx = current.index / 100;
-            if (tabIdx > 0) {
-                focusLastInTab(tabIdx - 1);
-                return;
-            }
-            focusLastInTab(6);
+           if (tabIdx == 0) {
+               focusLastInTab(6);
+               return;
+           }
+           focusLastInTab(tabIdx - 1);
         }
         break;
     }
