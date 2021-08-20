@@ -31,3 +31,11 @@ cd solitty/
 clang++ -Ofast -pthread -std=c++11 -stdlib=libc++ ./src/*.cpp -lncursesw -o solitty
 ```
 -lncursesw flag is required to link curses.h
+
+### Screenshot
+![new game](https://i.imgur.com/sMBQvif.png)
+
+### Troubleshooting
+If the compiler cannot find ncurses.h you need to make sure that ncurses is installed.
+If you cannot find ncurses in your package manager it might be called something else like
+libcurses or curses instead. If it still doesn't work use the -lncurses flag instead of -lncursesw when compiling.
