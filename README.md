@@ -42,6 +42,11 @@ vim ~/.cache/paru/clone/solitty-git/Config.h
 paru -S --rebuild solitty-git
 ```
 
+To run this program from any directory move the generated solitty file to anywhere in you $PATH
+```
+ln -s solitty ~/.local/bin/solitty
+```
+
 ### Screenshot
 ![new game](https://i.imgur.com/sMBQvif.png)
 
