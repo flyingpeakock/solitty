@@ -18,12 +18,14 @@ class Solitaire {
     std::array<Deck, 7> getTableaus();
     std::array<Deck, 4> getBuild();
     Deck getDiscard();
+    int getUsed();
 
     private:
     std::array<Deck, 7> tableaus;
     std::array<Deck, 4> build;
     Deck deck;
     Deck discard;
+    Deck usedDiscard;
 
     void buildTableaus();
     Card deal();

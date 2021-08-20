@@ -71,7 +71,7 @@ void Game::select() {
             // Cannot move to build unless bottom card in stack
             return;
         }
-        if (sol.moveTabToBuild(tabIdx, current.index)) {
+        if (sol.moveTabToBuild(selected.index / 100, current.index)) {
             win.select({Stack::NONE, 0});
         }
         return;

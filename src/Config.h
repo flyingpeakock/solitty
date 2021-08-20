@@ -48,3 +48,5 @@ enum Keybinds {
     RIGHT = 'l',
     SELECT = ' ',
 };
+
+const int cardOffset = 3; // How much the cards overlap in tableau

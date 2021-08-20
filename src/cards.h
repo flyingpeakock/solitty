@@ -27,6 +27,7 @@ class Card {
     void flipDown();
     void flipUp();
     Facing getFacing();
+    static void printBack(std::wostream &stream);
 
     private:
     Facing facing;
@@ -36,7 +37,6 @@ class Card {
     template<typename Enumeration>
     static wchar_t as_w_char(Enumeration c);
     void printFront(std::wostream &stream);
-    void printBack(std::wostream &stream);
     static void printTopRow(std::wostream &stream);
     static void printBotRow(std::wostream &stream);
 };

@@ -115,7 +115,7 @@ void Window::printDeck() {
 
 void Window::printDiscard() {
     Deck discard = sol->getDiscard();
-    if (discard.size() == 0) {
+    if (discard.size() == 0 && sol->getUsed() == 0) {
         // Print empty card
         std::wstringstream stream;
         Card::printEmpty(stream);
@@ -137,8 +137,30 @@ void Window::printDiscard() {
         return;
     }
 
+    if (discard.size() == 0) {
+        // Print back of card
+        std::wstringstream stream;
+        Card::printBack(stream);
+        std::vector<std::wstring> strings = splitCardString(stream);
+        int row = 0; 
+        if (selected.stack == Stack::DISCARD) {
+            attron(A_BLINK);
+        }
+        if (focused.stack == Stack::DISCARD) {
+            attron(A_BOLD);
+        }
+        attron(COLOR_PAIR(4));
+        for (auto &str : strings) {
+            mvaddwstr(row++, leftEdge + cardWidth + 1, str.c_str());
+        }
+        attroff(COLOR_PAIR(4));
+        attroff(A_BOLD);
+        attroff(A_BLINK);
+        return;
+    }
+
     int col = leftEdge + cardWidth + 1;
-    for (auto i = discard.size() - 3; i < discard.size(); i++) {
+    for (auto i = 0; i < discard.size(); i++) {
         Card card = discard[i];
         std::wstringstream stream;
         card.print(stream);
@@ -225,7 +247,7 @@ void Window::printTableaus() {
             attroff(COLOR_PAIR(4));
             attroff(A_BOLD);
             attroff(A_BLINK);
-            row += 2;
+            row += cardOffset;
         }
         col += cardWidth + 1;
     }

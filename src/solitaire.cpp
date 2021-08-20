@@ -54,12 +54,14 @@ void Solitaire::buildTableaus() {
 }
 
 void Solitaire::placeDiscard() {
+    usedDiscard.insert(usedDiscard.begin(), discard.begin(), discard.end());
+    discard.clear();
+    for (auto &card : usedDiscard) {
+        card.flipDown();
+    }
     if (deck.size() == 0) {
-        deck = discard;
-        for (auto &card : deck) {
-            card.flipDown();
-        }
-        discard.clear();
+        deck = usedDiscard;
+        usedDiscard.clear();
     }
     else if (deck.size() <= 3) {
         for (auto &card : deck) {
@@ -245,4 +247,8 @@ std::array<Deck, 4> Solitaire::getBuild() {
 
 Deck Solitaire::getDiscard() {
     return discard;
+}
+
+int Solitaire::getUsed() {
+    return usedDiscard.size();
 }
