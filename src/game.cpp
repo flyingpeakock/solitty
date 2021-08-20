@@ -1,4 +1,5 @@
 #include "game.h"
+#include "Stopwatch.h"
 #include <ncurses.h>
 
 Game::Game() : win(&sol){
@@ -7,6 +8,8 @@ Game::Game() : win(&sol){
 
 void Game::mainLoop() {
     bool playing = true;
+    Stopwatch timer;
+    timer.start();
     while (!sol.isWon() && playing) {
         win.print();
         wchar_t input = getch();
@@ -34,6 +37,11 @@ void Game::mainLoop() {
             select();
             break;
         }
+    }
+    timer.stop();
+    if (sol.isWon()) {
+        win.printMessage(timer.timeTaken());
+        getch();
     }
 }
 

@@ -21,13 +21,13 @@ Clone this repository then compile using g++ or clang++
 ```
 git clone https://github.com/flyingpeakock/solitty.git
 cd solitty/
-g++ -Ofast ./src/*.cpp -lncurses -o solitty
+g++ -Ofast -pthread ./src/*.cpp -lncurses -o solitty
 ```
 
 ### OSX
 ```
 git clone https://github.com/flyingpeakock/solitty.git
 cd solitty/
-clang++ -Ofast -std=c++11 -stdlib=libc++ ./src/*.cpp -lncursesw -o solitty
+clang++ -Ofast -pthread -std=c++11 -stdlib=libc++ ./src/*.cpp -lncursesw -o solitty
 ```
 -lncursesw flag is required to link curses.h

@@ -323,4 +323,5 @@ void Window::printMessage(std::string message) {
     int length = message.size();
     move(maxY, (maxX - length) / 2);
     addstr(message.c_str());
+    refresh();
 }
