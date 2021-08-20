@@ -32,6 +32,16 @@ clang++ -Ofast -pthread -std=c++11 -stdlib=libc++ ./src/*.cpp -lncursesw -o soli
 ```
 -lncursesw flag is required to link curses.h
 
+### Aur
+This package can be found as solitty-git on the AUR.
+```
+paru -S solitty-git
+
+# If you wish to edit config.h
+vim ~/.cache/paru/clone/solitty-git/Config.h
+paru -S --rebuild solitty-git
+```
+
 ### Screenshot
 ![new game](https://i.imgur.com/sMBQvif.png)
 
