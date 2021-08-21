@@ -47,9 +47,9 @@ void Card::printEmpty(std::wostream &stream) {
     printTopRow(stream);
 
     // Second to fourth row
-    for (auto i = 0; i < 3; i++) {
+    for (auto i = 0; i < cardHeight - 2; i++) {
         stream << as_w_char(Characters::VERTICAL_CARD);
-        for (auto j = 0; j < 5; j++) {
+        for (auto j = 0; j < cardWidth - 2; j++) {
             stream << L' ';
         }
         stream << as_w_char(Characters::VERTICAL_CARD);
@@ -63,7 +63,7 @@ void Card::printEmpty(std::wostream &stream) {
 
 void Card::printTopRow(std::wostream &stream) {
     stream << as_w_char(Characters::TOP_LEFT_CARD);
-    for (auto i = 0; i < 5; i++) {
+    for (auto i = 0; i < cardWidth - 2; i++) {
         stream << as_w_char(Characters::HORIZONTAL_CARD);
     }
     stream << as_w_char(Characters::TOP_RIGHT_CARD);
@@ -73,7 +73,7 @@ void Card::printTopRow(std::wostream &stream) {
 
 void Card::printBotRow(std::wostream &stream) {
     stream << as_w_char(Characters::BOT_LEFT_CARD);
-    for (auto i = 0; i < 5; i++) {
+    for (auto i = 0; i < cardWidth - 2; i++) {
         stream << as_w_char(Characters::HORIZONTAL_CARD);
     }
     stream << as_w_char(Characters::BOT_RIGHT_CARD);
@@ -85,9 +85,9 @@ void Card::printBack(std::wostream &stream) {
     printTopRow(stream);
 
     // Second row to fourth row
-    for (auto i = 0; i < 3; i++) {
+    for (auto i = 0; i < cardHeight - 2; i++) {
         stream << as_w_char(Characters::VERTICAL_CARD);
-        for (auto j = 0; j < 5; j++) {
+        for (auto j = 0; j < cardWidth - 2; j++) {
             stream << as_w_char(Characters::BACK_CHARACTER);
         }
         stream << as_w_char(Characters::VERTICAL_CARD);
@@ -99,29 +99,49 @@ void Card::printBack(std::wostream &stream) {
 }
 
 void Card::printFront(std::wostream &stream) {
-    // Top row
     printTopRow(stream);
 
-    // Second row
     stream << as_w_char(Characters::VERTICAL_CARD);
     stream << as_w_char(suit);
-    stream << "    ";
+    for (auto i = 0; i < cardWidth - 3; i++) {
+        stream << L" ";
+    }
     stream << as_w_char(Characters::VERTICAL_CARD);
     stream << '\n';
 
-    // Third row
+    for (auto i = 0; i < (cardHeight / 2) - 2; i++) {
+        stream << as_w_char(Characters::VERTICAL_CARD);
+        for (auto j = 0; j < cardWidth - 2; j++) {
+            stream << L' ';
+        }
+        stream << as_w_char(Characters::VERTICAL_CARD);
+        stream << '\n';
+    }
+
     std::wstring val = getValueStr();
+    int length = val.length();
+    if (cardWidth % 2 == 0) {
+        length++;
+    }
     stream << as_w_char(Characters::VERTICAL_CARD);
-    stream << "  " << val;
-    (val.length() == 1) ? stream << "  " : stream << ' ';
+    for (auto i = 0; i < (cardWidth - 2) / 2; i++) {
+        stream << L' ';
+    }
+    stream << val;
+    for (auto i = 0; i < ((cardWidth - 2) / 2) - length + 1; i++) {
+        stream << L' ';
+    }
     stream << as_w_char(Characters::VERTICAL_CARD);
     stream << '\n';
 
-    // Fourth row
-    stream << as_w_char(Characters::VERTICAL_CARD);
-    stream << "     ";
-    stream << as_w_char(Characters::VERTICAL_CARD);
-    stream << '\n';
+    for (auto i = 0; i < (cardHeight / 2) - 1; i++) {
+        stream << as_w_char(Characters::VERTICAL_CARD);
+        for (auto j = 0; j < cardWidth - 2; j++) {
+            stream << L' ';
+        }
+        stream << as_w_char(Characters::VERTICAL_CARD);
+        stream << '\n';
+    }
 
     // Bottom row
     printBotRow(stream);

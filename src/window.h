@@ -25,9 +25,6 @@ class Window {
 
     void clear();
 
-    static const int cardWidth = 7;
-    static const int cardHeight = 5;
-
     void init();
     int maxY, maxX;
     int leftEdge;

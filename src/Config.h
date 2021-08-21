@@ -2,6 +2,10 @@
 
 const int pullCards = 3; // Amount of cards to pull from the deck
 
+// Card dimensions in characters
+const int cardWidth = 7;
+const int cardHeight = 5;
+
 // Characters used for drawing the box around the card
 enum Characters {
     TOP_LEFT_CARD = L'╭',
