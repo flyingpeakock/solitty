@@ -167,8 +167,14 @@ void Game::down() {
     Position current = win.getFocus();
     switch (current.stack) {
         case Stack::DISCARD:
-        // Down from discard takes you to bottom of tab 2
-        focusLastInTab(1);
+        // Down from discard takes you to bottom of tab 2 if
+        // if discard.size() != 3, else to bottom of tab 3
+        if (sol.getDeck().size() < 3) {
+            focusLastInTab(1);
+        }
+        else {
+            focusLastInTab(2);
+        }
         break;
         case Stack::DECK:
         // Down from deck takes you to bottom of tab 1
