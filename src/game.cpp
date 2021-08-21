@@ -37,6 +37,9 @@ void Game::mainLoop() {
             select();
             break;
             case Keybinds::UNDO:
+            if (prev.size() == 0) {
+                break;
+            }
             sol = prev.back();
             prev.pop_back();
             break;
