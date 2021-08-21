@@ -41,6 +41,10 @@ void Window::init() {
     clear();
 }
 
+void Window::changeSolitaire(Solitaire *s) {
+    sol = s;
+}
+
 void Window::clear() {
     move(0,0);
     attron(COLOR_PAIR(1));

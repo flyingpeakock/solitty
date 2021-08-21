@@ -36,6 +36,10 @@ void Game::mainLoop() {
             case Keybinds::SELECT:
             select();
             break;
+            case Keybinds::UNDO:
+            sol = prev.back();
+            prev.pop_back();
+            break;
         }
     }
     timer.stop();
@@ -58,6 +62,9 @@ void Game::select() {
     if (selected.stack == Stack::NONE) {
         win.select(current);
         return;
+    }
+    else {
+        prev.push_back(sol);
     }
 
     if (current.stack == selected.stack && current.index == selected.index) {

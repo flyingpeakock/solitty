@@ -7,6 +7,9 @@ class Window {
     Window();
     Window(Solitaire *s);
     ~Window();
+
+    void changeSolitaire(Solitaire *s);
+
     void print();
 
     void focus(Position pos);

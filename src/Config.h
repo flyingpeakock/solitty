@@ -56,6 +56,7 @@ enum Keybinds {
     UP = 'k',
     RIGHT = 'l',
     SELECT = ' ',
+    UNDO = 'b',
 };
 
 const int cardOffset = 3; // How much the cards overlap in tableau
