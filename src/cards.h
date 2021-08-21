@@ -23,7 +23,6 @@ class Card {
     Color color();
     int rank();
     Suit shape();
-    void flip();
     void flipDown();
     void flipUp();
     Facing getFacing();

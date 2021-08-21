@@ -153,17 +153,6 @@ Color Card::color() {
     }
 }
 
-void Card::flip() {
-    switch (facing) {
-        case Facing::FRONT:
-        facing = Facing::BACK;
-        break;
-        case Facing::BACK:
-        facing = Facing::FRONT;
-        break;
-    }
-}
-
 void Card::flipDown() {
     facing = Facing::BACK;
 }
