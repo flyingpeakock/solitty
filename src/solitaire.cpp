@@ -6,6 +6,10 @@
 Solitaire::Solitaire() {
     deck = buildDeck();
     buildTableaus();
+    for (auto &card : deck) {
+        card.flipUp(); // Flipping entire deck up since window
+                       // explicitly prints back anyway
+    }
 }
 
 Deck Solitaire::buildDeck() {
@@ -56,9 +60,6 @@ void Solitaire::buildTableaus() {
 void Solitaire::placeDiscard() {
     usedDiscard.insert(usedDiscard.begin(), discard.begin(), discard.end());
     discard.clear();
-    for (auto &card : usedDiscard) {
-        card.flipDown();
-    }
     if (deck.size() == 0) {
         deck = usedDiscard;
         usedDiscard.clear();
@@ -74,10 +75,6 @@ void Solitaire::placeDiscard() {
             // discard.push_back(deal());
             discard.insert(discard.begin(), deal());
         }
-    }
-
-    for (auto &card : discard) {
-        card.flipUp();
     }
 }
 

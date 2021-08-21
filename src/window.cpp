@@ -93,7 +93,7 @@ void Window::printDeck() {
         Card::printEmpty(stream);
     }
     else {
-        deck.back().print(stream);
+        Card::printBack(stream);
     }
     std::vector<std::wstring> strings = splitCardString(stream);
 

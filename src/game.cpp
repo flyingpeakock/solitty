@@ -171,10 +171,9 @@ void Game::down() {
         // if discard.size() != 3, else to bottom of tab 3
         if (sol.getDeck().size() < 3) {
             focusLastInTab(1);
+            return;
         }
-        else {
-            focusLastInTab(2);
-        }
+        focusLastInTab(2);
         break;
         case Stack::DECK:
         // Down from deck takes you to bottom of tab 1
