@@ -1,6 +1,7 @@
 #pragma once
 
 const int pullCards = 3; // Amount of cards to pull from the deck
+                         // More than 4 cards won't display properly
 
 // Card dimensions in characters
 const int cardWidth = 7;
