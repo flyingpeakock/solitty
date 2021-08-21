@@ -127,8 +127,13 @@ void Game::up() {
         focusLastInTab(current.index + 3);
         break;
         case Stack::DISCARD:
-        // Places you in 2nd tab bottom card
-        focusLastInTab(1);
+        // Places you in 2nd tab bottom card if discard pile is less than 3
+        // else go to 3rd tab bottom card
+        if (sol.getDiscard().size() < 3) {
+            focusLastInTab(1);
+            return;
+        }
+        focusLastInTab(2);
         break;
         case Stack::TABLEAU:
         // If uncovered cards above focus those
