@@ -134,7 +134,7 @@ void Card::printFront(std::wostream &stream) {
     stream << as_w_char(Characters::VERTICAL_CARD);
     stream << '\n';
 
-    for (auto i = 0; i < (cardHeight / 2) - 1; i++) {
+    for (auto i = 0; i < (cardHeight / 2) - 1 - ((cardHeight + 1) % 2); i++) {
         stream << as_w_char(Characters::VERTICAL_CARD);
         for (auto j = 0; j < cardWidth - 2; j++) {
             stream << L' ';
