@@ -58,6 +58,7 @@ void Game::select() {
     Position selected = win.getSelect(); // to
 
     if (current.stack == Stack::DECK) {
+        prev.push_back(sol);
         sol.placeDiscard();
         return;
     }
