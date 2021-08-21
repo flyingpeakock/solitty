@@ -39,6 +39,7 @@ class Card {
     void printFront(std::wostream &stream);
     static void printTopRow(std::wostream &stream);
     static void printBotRow(std::wostream &stream);
+    static void printEmptyRow(std::wostream &stream);
 };
 
 typedef std::vector<Card> Deck;
