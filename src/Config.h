@@ -40,7 +40,7 @@ enum Suit {
  */
 
 enum Colors {
-    FOREGROUND_COLOR = -1,
+    FOREGROUND_COLOR = 0,
     BACKGROUND_COLOR = 2,
     RED_CARD_COLOR = 1,
     BLACK_CARD_COLOR = 0,
