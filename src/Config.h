@@ -1,5 +1,8 @@
 #pragma once
 
+const int pullCards = 3; // Amount of cards to pull from the deck
+
+// Characters used for drawing the box around the card
 enum Characters {
     TOP_LEFT_CARD = L'╭',
     TOP_RIGHT_CARD = L'╮',
@@ -10,6 +13,7 @@ enum Characters {
     BACK_CHARACTER = L'╳',
 };
 
+// Characters used to draw the suit
 enum Suit {
     HEARTS = L'♥',
     DIAMONDS = L'♦',
@@ -50,3 +54,4 @@ enum Keybinds {
 };
 
 const int cardOffset = 3; // How much the cards overlap in tableau
+const int cardOffseHidden = 1; // Offset for turned over cards in the tableau

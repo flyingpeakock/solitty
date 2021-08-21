@@ -64,14 +64,14 @@ void Solitaire::placeDiscard() {
         deck = usedDiscard;
         usedDiscard.clear();
     }
-    else if (deck.size() <= 3) {
+    else if (deck.size() <= pullCards) {
         for (auto &card : deck) {
             // discard.push_back(deal());
             discard.insert(discard.begin(), deal());
         }
     }
     else {
-        for (auto i = 0; i < 3; i++) {
+        for (auto i = 0; i < pullCards; i++) {
             // discard.push_back(deal());
             discard.insert(discard.begin(), deal());
         }

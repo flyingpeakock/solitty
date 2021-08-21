@@ -247,7 +247,12 @@ void Window::printTableaus() {
             attroff(COLOR_PAIR(4));
             attroff(A_BOLD);
             attroff(A_BLINK);
-            row += cardOffset;
+            if (card.getFacing() == Facing::FRONT) {
+                row += cardOffset;
+            }
+            else {
+                row += cardOffseHidden;
+            }
         }
         col += cardWidth + 1;
     }
