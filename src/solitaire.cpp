@@ -285,6 +285,13 @@ bool Solitaire::placeWinningBuild() {
 
     Suit s = tableaus[tabIdx].back().shape();
     for (auto i = 0; i < build.size(); i++) {
+        if (build[i].size() == 0) {
+            if (lowestVal == 1) {
+                moveTabToBuild(tabIdx, i);
+                return true;
+            }
+            continue;
+        }
         if (s == build[i].back().shape()) {
             moveTabToBuild(tabIdx, i);
             return true;
