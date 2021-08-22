@@ -258,3 +258,34 @@ Deck Solitaire::getDiscard() {
 int Solitaire::getUsed() {
     return usedDiscard.size();
 }
+
+bool Solitaire::placeWinningBuild() {
+    if (!isWon()) {
+        // This function shouldnt be called unless game is won
+        return false;
+    }
+
+    int lowestVal = 14;
+    int tabIdx = -1;
+    //for (auto &tab : tableaus) {
+    for (auto i = 0; i < tableaus.size(); i++) {
+        auto tab = tableaus[i];
+        if (tab.size() > 0 && tab.back().rank() < lowestVal) {
+            lowestVal = tab.back().rank();
+            tabIdx = i;
+        }
+    }
+
+    if (tabIdx == -1) {
+        return false;
+    }
+
+    Suit s = tableaus[tabIdx].back().shape();
+    for (auto i = 0; i < build.size(); i++) {
+        if (s == build[i].back().shape()) {
+            moveTabToBuild(tabIdx, i);
+            return true;
+        }
+    }
+    return false;
+}

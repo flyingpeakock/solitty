@@ -16,7 +16,7 @@ enum Stack {
  * index is only useful for build and tableau.
  * The index for build is 0-4
  * The index for tableau is 0 - 700
- * Where the last tableu starts with 7 and the last two
+ * Where the last tableu starts with 6 and the last two
  * digits are which specific card in the tablue is selected.
  */
 

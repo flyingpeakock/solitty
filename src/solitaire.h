@@ -20,6 +20,8 @@ class Solitaire {
     Deck getDiscard();
     int getUsed();
 
+    bool placeWinningBuild();
+
     private:
     std::array<Deck, 7> tableaus;
     std::array<Deck, 4> build;

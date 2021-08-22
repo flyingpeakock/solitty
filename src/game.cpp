@@ -1,6 +1,8 @@
 #include "game.h"
 #include "Stopwatch.h"
 #include <ncurses.h>
+#include <chrono>
+#include <thread>
 
 Game::Game() : win(&sol){
     win.print();
@@ -47,7 +49,10 @@ void Game::mainLoop() {
     }
     timer.stop();
     if (sol.isWon()) {
-        win.print();
+        while (sol.placeWinningBuild()) {
+            win.print();
+            std::this_thread::sleep_for(std::chrono::milliseconds(sleepTime));
+        }
         win.printMessage(timer.timeTaken());
         getch();
     }
