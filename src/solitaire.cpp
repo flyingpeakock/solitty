@@ -176,6 +176,9 @@ bool Solitaire::moveTabToBuild(const int fromTab, const int toBuild) {
 }
 
 bool Solitaire::moveBuildToTab(const int fromBuild, const int toTab) {
+    if (build[fromBuild].size() == 0) {
+        return false;
+    }
     Card from = build[fromBuild].back();
     Card to = tableaus[toTab].back();
 
