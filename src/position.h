@@ -23,4 +23,7 @@ enum Stack {
 struct Position {
     Stack stack;
     int index;
+    bool operator==(const Position &other) {
+        return stack == other.stack && index == other.index;
+    }
 };

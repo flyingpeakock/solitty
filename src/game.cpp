@@ -71,7 +71,7 @@ void Game::select() {
         prev.push_back(sol);
     }
 
-    if (current.stack == selected.stack && current.index == selected.index) {
+    if (current == selected) {
         win.select({Stack::NONE, 0});
         return;
     }
