@@ -29,6 +29,8 @@ class Solitaire {
     Deck discard;
     Deck usedDiscard;
 
+    bool won;
+
     void buildTableaus();
     Card deal();
     static Deck buildDeck();
