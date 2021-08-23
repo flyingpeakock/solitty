@@ -4,6 +4,7 @@
 #include <chrono>
 
 Solitaire::Solitaire() {
+    won = false;
     deck = buildDeck();
     buildTableaus();
     for (auto &card : deck) {
@@ -229,6 +230,10 @@ bool Solitaire::moveDiscToTab(const int toTab) {
 }
 
 bool Solitaire::isWon() {
+    if (won) { // Putting check here to avoid unnecessary checks
+        return true;
+    }
+
     if (deck.size() == 0 && discard.size() == 0 && usedDiscard.size() == 0) {
         for (auto &tab : tableaus) {
             for (auto &card : tab) {
@@ -237,6 +242,7 @@ bool Solitaire::isWon() {
                 }
             }
         }
+        won = true;
         return true;
     }
     return false;
