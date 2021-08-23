@@ -82,35 +82,35 @@ void Game::select() {
     }
 
     if (current.stack == Stack::TABLEAU && selected.stack == Stack::TABLEAU) {
-        int pos = selected.index % 100;
-        if (sol.moveTabtoTab(selected.index / 100, pos, current.index / 100)) {
+        int pos = selected.index % 32;
+        if (sol.moveTabtoTab(selected.index / 32, pos, current.index / 32)) {
             win.select({Stack::NONE, 0});
         }
         return;
     }
 
     if (current.stack == Stack::BUILD && selected.stack == Stack::TABLEAU) {
-        Deck tab = sol.getTableaus()[selected.index / 100];
-        int tabIdx = selected.index % 100;
+        Deck tab = sol.getTableaus()[selected.index / 32];
+        int tabIdx = selected.index % 32;
         if (tabIdx != tab.size() - 1) {
             // Cannot move to build unless bottom card in stack
             return;
         }
-        if (sol.moveTabToBuild(selected.index / 100, current.index)) {
+        if (sol.moveTabToBuild(selected.index / 32, current.index)) {
             win.select({Stack::NONE, 0});
         }
         return;
     }
 
     if (current.stack == Stack::TABLEAU && selected.stack == Stack::BUILD) {
-        if (sol.moveBuildToTab(selected.index, current.index / 100)) {
+        if (sol.moveBuildToTab(selected.index, current.index / 32)) {
             win.select({Stack::NONE, 0});
         }
         return;
     }
 
     if (current.stack == Stack::TABLEAU && selected.stack == Stack::DISCARD) {
-        if (sol.moveDiscToTab(current.index / 100)) {
+        if (sol.moveDiscToTab(current.index / 32)) {
             win.select({Stack::NONE, 0});
         }
         return;
@@ -128,7 +128,7 @@ void Game::focusLastInTab(int tabIdx) {
     int lastIndex = tab.size() - 1;
     if (lastIndex < 0)
         lastIndex = 0;
-    win.focus({Stack::TABLEAU, (tabIdx * 100) + lastIndex});
+    win.focus({Stack::TABLEAU, (tabIdx * 32) + lastIndex});
 }
 
 void Game::up() {
@@ -156,9 +156,9 @@ void Game::up() {
         // else tab 0 focus deck, tab 1-2 focus discard
         // tab 3-6 focus build - 3
         {
-            Deck tab = sol.getTableaus()[current.index / 100];
-            if (current.index % 100 != 0) {
-                for (auto i = (current.index % 100) - 1; i >= 0; i--) {
+            Deck tab = sol.getTableaus()[current.index / 32];
+            if (current.index % 32 != 0) {
+                for (auto i = (current.index % 32) - 1; i >= 0; i--) {
                     if (tab[i].getFacing() == Facing::FRONT) {
                         win.focus({Stack::TABLEAU, current.index - 1});
                         return;
@@ -166,7 +166,7 @@ void Game::up() {
                 }
             }
 
-            int tabIdx = current.index / 100;
+            int tabIdx = current.index / 32;
             switch (tabIdx) {
                 case 0:
                 win.focus({Stack::DECK, 0});
@@ -209,14 +209,14 @@ void Game::down() {
         // else tab 0 focus deck, tab 1, 2 focus discard
         // 3-6 focus build - 3
         {
-            Deck tab = sol.getTableaus()[current.index / 100];
-            for (auto i = (current.index % 100) + 1; i < tab.size(); i++) {
+            Deck tab = sol.getTableaus()[current.index / 32];
+            for (auto i = (current.index % 32) + 1; i < tab.size(); i++) {
                 if (tab[i].getFacing() == Facing::FRONT) {
                     win.focus({Stack::TABLEAU, current.index + 1});
                     return;
                 }
             }
-            int tabIdx = current.index / 100;
+            int tabIdx = current.index / 32;
             switch (tabIdx) {
                 case 0:
                 win.focus({Stack::DECK, 0});
@@ -226,7 +226,7 @@ void Game::down() {
                 win.focus({Stack::DISCARD, 0});
                 break;
                 default:
-                win.focus({Stack::BUILD, (current.index / 100) - 3});
+                win.focus({Stack::BUILD, (current.index / 32) - 3});
             }
         }
         break;
@@ -252,7 +252,7 @@ void Game::right() {
         break;
         case Stack::TABLEAU:
         {
-            int tabIdx = current.index / 100;
+            int tabIdx = current.index / 32;
             if (tabIdx == 6) {
                 focusLastInTab(0);
                 return;
@@ -281,7 +281,7 @@ void Game::left() {
         break;
         case Stack::TABLEAU:
         {
-            int tabIdx = current.index / 100;
+            int tabIdx = current.index / 32;
            if (tabIdx == 0) {
                focusLastInTab(6);
                return;

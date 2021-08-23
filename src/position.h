@@ -15,9 +15,8 @@ enum Stack {
 /* Position struct to determine what card has focus
  * index is only useful for build and tableau.
  * The index for build is 0-4
- * The index for tableau is 0 - 700
- * Where the last tableu starts with 6 and the last two
- * digits are which specific card in the tablue is selected.
+ * To find index for tableu index / 32 is tab
+ * index % 32 card in tab
  */
 
 struct Position {

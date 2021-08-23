@@ -207,10 +207,10 @@ void Window::printTableaus() {
             Card::printEmpty(stream);
             auto str = splitCardString(stream);
             attron(COLOR_PAIR(5));
-            if (focused.stack == Stack::TABLEAU && focused.index / 100 == i) {
+            if (focused.stack == Stack::TABLEAU && focused.index / 32 == i) {
                 attron(A_BOLD);
             }
-            if (selected.stack == Stack::TABLEAU &&  selected.index / 100 == i) {
+            if (selected.stack == Stack::TABLEAU &&  selected.index / 32 == i) {
                 attron(A_BLINK);
             }
             for (auto i = 0; i < str.size(); i++) {
@@ -237,10 +237,10 @@ void Window::printTableaus() {
             else {
                 attron(COLOR_PAIR(2));
             }
-            if (focused.stack == Stack::TABLEAU && focused.index / 100 == i && focused.index % 100 == j) {
+            if (focused.stack == Stack::TABLEAU && focused.index / 32 == i && focused.index % 32 == j) {
                 attron(A_BOLD);
             }
-            if (selected.stack == Stack::TABLEAU && selected.index / 100 == i && selected.index % 100 <= j) {
+            if (selected.stack == Stack::TABLEAU && selected.index / 32 == i && selected.index % 32 <= j) {
                 attron(A_BLINK);
             }
             for (auto i = 0; i < str.size(); i++) {
