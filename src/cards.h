@@ -16,7 +16,7 @@ enum Facing {
 
 class Card {
     public:
-    Card(Suit s, int v);
+    Card(const Suit s, const int v);
     Card(const Card &other);
     void print(std::wostream &stream);
     static void printEmpty(std::wostream &stream);

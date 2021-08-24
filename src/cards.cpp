@@ -1,7 +1,7 @@
 #include "cards.h"
 #include <iostream>
 
-Card::Card(Suit s, int v): suit(s), value(v), facing(Facing::BACK) {}
+Card::Card(const Suit s, const int v): suit(s), value(v), facing(Facing::BACK) {}
 
 Card::Card(const Card &other): facing(other.facing), suit(other.suit), value(other.value) {}
 
