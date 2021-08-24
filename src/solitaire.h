@@ -14,11 +14,11 @@ class Solitaire {
     bool moveDiscToTab(const int toTab);
     bool moveDiscToBuild(const int toBuild);
 
-    Deck getDeck();
-    std::array<Deck, 7> getTableaus();
-    std::array<Deck, 4> getBuild();
-    Deck getDiscard();
-    int getUsed();
+    Deck getDeck() const;
+    std::array<Deck, 7> getTableaus() const;
+    std::array<Deck, 4> getBuild() const;
+    Deck getDiscard() const;
+    int getUsed() const;
 
     bool placeWinningBuild();
 

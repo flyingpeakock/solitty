@@ -33,7 +33,7 @@ Deck Solitaire::buildDeck() {
             }
         }
     }
-    unsigned seed = std::chrono::system_clock::now()
+    const unsigned seed = std::chrono::system_clock::now()
         .time_since_epoch()
         .count();
     shuffle(deck.begin(), deck.end(), std::default_random_engine(seed));
@@ -41,7 +41,7 @@ Deck Solitaire::buildDeck() {
 }
 
 Card Solitaire::deal() {
-    Card card = deck.back();
+    const Card card = deck.back();
     deck.pop_back();
     return card;
 }
@@ -66,7 +66,7 @@ void Solitaire::placeDiscard() {
         usedDiscard.clear();
     }
     else if (deck.size() <= pullCards) {
-        for (auto &card : deck) {
+        for (const auto &card : deck) {
             // discard.push_back(deal());
             discard.insert(discard.begin(), deal());
         }
@@ -80,7 +80,7 @@ void Solitaire::placeDiscard() {
 }
 
 bool Solitaire::moveTabtoTab(const int fromTab, const int pos, const int toTab) {
-    Card from = tableaus[fromTab][pos];
+    const Card from = tableaus[fromTab][pos];
 
     if (tableaus[toTab].size() == 0) {
         if (from.rank() != 13)
@@ -92,7 +92,7 @@ bool Solitaire::moveTabtoTab(const int fromTab, const int pos, const int toTab) 
         tableaus[fromTab].back().flipUp();
         return true;
     }
-    Card to = tableaus[toTab][tableaus[toTab].size() - 1];
+    const Card to = tableaus[toTab][tableaus[toTab].size() - 1];
 
     if (from.color() == to.color()) {
         // Cannot move since colors are the same
@@ -118,7 +118,7 @@ bool Solitaire::moveDiscToBuild(const int toBuild) {
     if (discard.size() == 0) {
         return false;
     }
-    Card from = discard.back();
+    const Card from = discard.back();
     if (build[toBuild].size() == 0) {
         // Trying to move non ace to empty build deck
         if (from.rank() != 1) {
@@ -130,7 +130,7 @@ bool Solitaire::moveDiscToBuild(const int toBuild) {
         return true;
     }
 
-    Card to = build[toBuild].back();
+    const Card to = build[toBuild].back();
     if (from.shape() != to.shape()) {
         // Trying to move onto the wrong build
         return false;
@@ -147,7 +147,7 @@ bool Solitaire::moveDiscToBuild(const int toBuild) {
 }
 
 bool Solitaire::moveTabToBuild(const int fromTab, const int toBuild) {
-    Card from = tableaus[fromTab].back();
+    const Card from = tableaus[fromTab].back();
     if (build[toBuild].size() == 0) {
         // Trying to move non ace to empty build deck
         if (from.rank() != 1)
@@ -159,7 +159,7 @@ bool Solitaire::moveTabToBuild(const int fromTab, const int toBuild) {
         return true;
     }
 
-    Card to = build[toBuild].back();
+    const Card to = build[toBuild].back();
     if (from.shape() != to.shape()) {
         // Trying to move onto the wrong build
         return false;
@@ -180,8 +180,19 @@ bool Solitaire::moveBuildToTab(const int fromBuild, const int toTab) {
     if (build[fromBuild].size() == 0) {
         return false;
     }
-    Card from = build[fromBuild].back();
-    Card to = tableaus[toTab].back();
+
+    const Card from = build[fromBuild].back();
+    if (tableaus[toTab].size() == 0) {
+        if (from.rank() != 13) {
+            // Trying to move non king to tab
+            return false;
+        }
+        tableaus[toTab].push_back(from);
+        build[fromBuild].pop_back();
+        return true;
+    }
+
+    const Card to = tableaus[toTab].back();
 
     if (from.color() == to.color()) {
         // Placing same color
@@ -202,7 +213,7 @@ bool Solitaire::moveDiscToTab(const int toTab) {
     if (discard.size() == 0) {
         return false;
     }
-    Card from = discard.back();
+    const Card from = discard.back();
     if (tableaus[toTab].size() == 0) {
         if (from.rank() == 13) {
             // King, must be placed on empty tab
@@ -213,7 +224,7 @@ bool Solitaire::moveDiscToTab(const int toTab) {
         return false;
     }
     
-    Card to = tableaus[toTab].back();
+    const Card to = tableaus[toTab].back();
     if (to.color() == from.color()) {
         // Not different colors
         return false;
@@ -235,8 +246,8 @@ bool Solitaire::isWon() {
     }
 
     if (deck.size() == 0 && discard.size() == 0 && usedDiscard.size() == 0) {
-        for (auto &tab : tableaus) {
-            for (auto &card : tab) {
+        for (const auto &tab : tableaus) {
+            for (const auto &card : tab) {
                 if (card.getFacing() == Facing::BACK) {
                     return false;
                 }
@@ -248,23 +259,23 @@ bool Solitaire::isWon() {
     return false;
 }
 
-Deck Solitaire::getDeck() {
+Deck Solitaire::getDeck() const{
     return deck;
 }
 
-std::array<Deck, 7> Solitaire::getTableaus() {
+std::array<Deck, 7> Solitaire::getTableaus() const{
     return tableaus;
 }
 
-std::array<Deck, 4> Solitaire::getBuild() {
+std::array<Deck, 4> Solitaire::getBuild() const{
     return build;
 }
 
-Deck Solitaire::getDiscard() {
+Deck Solitaire::getDiscard() const{
     return discard;
 }
 
-int Solitaire::getUsed() {
+int Solitaire::getUsed() const{
     return usedDiscard.size();
 }
 
@@ -289,7 +300,7 @@ bool Solitaire::placeWinningBuild() {
         return false;
     }
 
-    Suit s = tableaus[tabIdx].back().shape();
+    const Suit s = tableaus[tabIdx].back().shape();
     for (auto i = 0; i < build.size(); i++) {
         if (build[i].size() == 0) {
             if (lowestVal == 1) {
