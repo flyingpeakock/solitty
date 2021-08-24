@@ -5,7 +5,7 @@ Card::Card(const Suit s, const int v): suit(s), value(v), facing(Facing::BACK) {
 
 Card::Card(const Card &other): facing(other.facing), suit(other.suit), value(other.value) {}
 
-std::wstring Card::getValueStr() {
+std::wstring Card::getValueStr() const{
     if (value <= 1) {
         return L"A";
     }
@@ -29,7 +29,7 @@ wchar_t Card::as_w_char(const Enumeration c) {
     return static_cast<wchar_t>(c);
 }
 
-void Card::print(std::wostream &stream) {
+void Card::print(std::wostream &stream) const{
     switch (facing) {
         case Facing::FRONT:
         return printFront(stream);
@@ -98,7 +98,7 @@ void Card::printBack(std::wostream &stream) {
     printBotRow(stream);
 }
 
-void Card::printFront(std::wostream &stream) {
+void Card::printFront(std::wostream &stream) const{
     printTopRow(stream);
 
     stream << as_w_char(Characters::VERTICAL_CARD);
@@ -131,7 +131,7 @@ void Card::printFront(std::wostream &stream) {
     printBotRow(stream);
 }
 
-Color Card::color() {
+Color Card::color() const{
     switch (suit) {
         case Suit::HEARTS:
         case Suit::DIAMONDS:
@@ -151,14 +151,14 @@ void Card::flipUp() {
     facing = Facing::FRONT;
 }
 
-int Card::rank() {
+int Card::rank() const{
     return value;
 }
 
-Suit Card::shape() {
+Suit Card::shape() const{
     return suit;
 }
 
-Facing Card::getFacing() {
+Facing Card::getFacing() const{
     return facing;
 }
