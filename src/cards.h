@@ -34,11 +34,11 @@ class Card {
     int value;
     std::wstring getValueStr();
     template<typename Enumeration>
-    static wchar_t as_w_char(Enumeration c);
-    void printFront(std::wostream &stream);
+    static wchar_t as_w_char(const Enumeration c);
+    void printFront( std::wostream &stream);
     static void printTopRow(std::wostream &stream);
     static void printBotRow(std::wostream &stream);
-    static void printEmptyRow(std::wostream &stream, int lines);
+    static void printEmptyRow(std::wostream &stream, const int lines);
 };
 
 typedef std::vector<Card> Deck;

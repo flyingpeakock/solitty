@@ -1,13 +1,9 @@
 #include "cards.h"
 #include <iostream>
 
-Card::Card(Suit s, int v): suit(s), value(v), facing(Facing::BACK) {};
+Card::Card(Suit s, int v): suit(s), value(v), facing(Facing::BACK) {}
 
-Card::Card(const Card &other) {
-    facing = other.facing;
-    suit = other.suit;
-    value = other.value;
-}
+Card::Card(const Card &other): facing(other.facing), suit(other.suit), value(other.value) {}
 
 std::wstring Card::getValueStr() {
     if (value <= 1) {
@@ -23,13 +19,13 @@ std::wstring Card::getValueStr() {
     }
     
     // Values are now 10 or above, i.e jack and above
-    std::wstring values[] = {L"J", L"Q", L"K"};
-    int idx = value - 11;
+    const std::wstring values[] = {L"J", L"Q", L"K"};
+    const int idx = value - 11;
     return values[idx];
 }
 
 template<typename Enumeration>
-wchar_t Card::as_w_char(Enumeration c) {
+wchar_t Card::as_w_char(const Enumeration c) {
     return static_cast<wchar_t>(c);
 }
 
@@ -70,10 +66,10 @@ void Card::printBotRow(std::wostream &stream) {
         stream << as_w_char(Characters::HORIZONTAL_CARD);
     }
     stream << as_w_char(Characters::BOT_RIGHT_CARD);
-    stream << std::endl;
+    stream << '\n';
 }
 
-void Card::printEmptyRow(std::wostream &stream, int lines) {
+void Card::printEmptyRow(std::wostream &stream, const int lines) {
     for (auto line = 0; line < lines; line++) {
         stream << as_w_char(Characters::VERTICAL_CARD);
         for (auto i = 0; i < cardWidth - 2; i++) {
@@ -116,10 +112,7 @@ void Card::printFront(std::wostream &stream) {
     printEmptyRow(stream, (cardHeight / 2) - 2);
 
     std::wstring val = getValueStr();
-    int length = val.length();
-    if (cardWidth % 2 == 0) {
-        length++;
-    }
+    const int length = cardWidth % 2 == 0? val.length() + 1: val.length();
     stream << as_w_char(Characters::VERTICAL_CARD);
     for (auto i = 0; i < (cardWidth - 2) / 2; i++) {
         stream << L' ';
@@ -131,7 +124,7 @@ void Card::printFront(std::wostream &stream) {
     stream << as_w_char(Characters::VERTICAL_CARD);
     stream << '\n';
 
-    int lines = (cardHeight / 2) - 1 - ((cardHeight + 1) % 2);
+    const int lines = (cardHeight / 2) - 1 - ((cardHeight + 1) % 2);
     printEmptyRow(stream, lines);
 
     // Bottom row
