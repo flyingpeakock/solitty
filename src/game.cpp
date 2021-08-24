@@ -71,6 +71,7 @@ void Game::select() {
         win.select(current);
         return;
     }
+    prev.push_back(sol);
 
     if (current == selected) {
         win.select({Stack::NONE, 0});
@@ -81,7 +82,9 @@ void Game::select() {
         const int pos = selected.index % 32;
         if (sol.moveTabtoTab(selected.index / 32, pos, current.index / 32)) {
             win.select({Stack::NONE, 0});
-            prev.push_back(sol);
+        }
+        else {
+            prev.pop_back();
         }
         return;
     }
@@ -95,7 +98,9 @@ void Game::select() {
         }
         if (sol.moveTabToBuild(selected.index / 32, current.index)) {
             win.select({Stack::NONE, 0});
-            prev.push_back(sol);
+        }
+        else {
+            prev.pop_back();
         }
         return;
     }
@@ -103,7 +108,9 @@ void Game::select() {
     if (current.stack == Stack::TABLEAU && selected.stack == Stack::BUILD) {
         if (sol.moveBuildToTab(selected.index, current.index / 32)) {
             win.select({Stack::NONE, 0});
-            prev.push_back(sol);
+        }
+        else {
+            prev.pop_back();
         }
         return;
     }
@@ -111,7 +118,9 @@ void Game::select() {
     if (current.stack == Stack::TABLEAU && selected.stack == Stack::DISCARD) {
         if (sol.moveDiscToTab(current.index / 32)) {
             win.select({Stack::NONE, 0});
-            prev.push_back(sol);
+        }
+        else {
+            prev.pop_back();
         }
         return;
     }
@@ -119,7 +128,9 @@ void Game::select() {
     if (current.stack == Stack::BUILD && selected.stack == Stack::DISCARD) {
         if (sol.moveDiscToBuild(current.index)) {
             win.select({Stack::NONE, 0});
-            prev.push_back(sol);
+        }
+        else {
+            prev.pop_back();
         }
     }
 }
