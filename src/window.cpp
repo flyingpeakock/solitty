@@ -190,7 +190,7 @@ void Window::printDiscard() {
         attroff(COLOR_PAIR(3));
         attroff(A_BOLD);
         attroff(A_BLINK);
-        col += 4;
+        col += (cardWidth / 2) + 1;
     }
 }
 
