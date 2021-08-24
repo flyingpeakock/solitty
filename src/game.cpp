@@ -50,6 +50,8 @@ void Game::mainLoop() {
     timer.stop();
     if (sol.isWon()) {
         while (sol.placeWinningBuild()) {
+            win.select({Stack::NONE, 0});
+            win.focus({Stack::NONE, 0});
             win.print();
             std::this_thread::sleep_for(std::chrono::milliseconds(sleepTime));
         }
