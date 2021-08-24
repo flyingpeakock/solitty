@@ -7,6 +7,9 @@ const int pullCards = 3; // Amount of cards to pull from the deck
 const int cardWidth = 7; // must be at least 3
 const int cardHeight = 5; // must be at least 4
 
+// Spacing between the stacks
+const int stackSpacing = 1;
+
 // Time between frames in winning animation
 const int sleepTime = 300;
 

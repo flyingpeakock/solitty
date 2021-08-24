@@ -56,9 +56,8 @@ void Window::clear() {
 
 void Window::calcLeftEdge() {
     // There are 7 tableaus and 6 gaps between them
-    // The gaps will have the widgh of 1 char
 
-    const int width = (cardWidth * 7) + 6;
+    const int width = (cardWidth * 7) + (stackSpacing * 6);
     leftEdge = (maxX - width) / 2;
 }
 
@@ -133,7 +132,7 @@ void Window::printDiscard() {
         }
         attron(COLOR_PAIR(5));
         for (auto &str : strings) {
-            mvaddwstr(row++, leftEdge + cardWidth + 1, str.c_str());
+            mvaddwstr(row++, leftEdge + cardWidth + stackSpacing, str.c_str());
         }
         attroff(COLOR_PAIR(5));
         attroff(A_BLINK);
@@ -155,7 +154,7 @@ void Window::printDiscard() {
         }
         attron(COLOR_PAIR(4));
         for (auto &str : strings) {
-            mvaddwstr(row++, leftEdge + cardWidth + 1, str.c_str());
+            mvaddwstr(row++, leftEdge + cardWidth + stackSpacing, str.c_str());
         }
         attroff(COLOR_PAIR(4));
         attroff(A_BOLD);
@@ -163,7 +162,7 @@ void Window::printDiscard() {
         return;
     }
 
-    int col = leftEdge + cardWidth + 1;
+    int col = leftEdge + cardWidth + stackSpacing;
     for (auto i = 0; i < discard.size(); i++) {
         Card card = discard[i];
         std::wstringstream stream;
@@ -197,7 +196,6 @@ void Window::printDiscard() {
 void Window::printTableaus() {
     auto tabs = sol->getTableaus();
     int col = leftEdge;
-    // for (auto &tab : tabs) {
     for (auto i = 0; i < tabs.size(); i++) {
         auto tab = tabs[i];
         // Checking if any cards in tab
@@ -219,10 +217,9 @@ void Window::printTableaus() {
             attroff(COLOR_PAIR(5));
             attroff(A_BOLD);
             attroff(A_BLINK);
-            col += cardWidth + 1;
+            col += cardWidth + stackSpacing;
             continue;
         }
-        // for (auto &card : tab) {
         for (auto j = 0; j < tab.size(); j++) {
             auto card = tab[j];
             std::wstringstream stream;
@@ -258,13 +255,13 @@ void Window::printTableaus() {
                 row += cardOffseHidden;
             }
         }
-        col += cardWidth + 1;
+        col += cardWidth + stackSpacing;
     }
 }
 
 void Window::printBuild() {
     int row = 0;
-    int col = (cardWidth * 3) + 3 + leftEdge;
+    int col = (cardWidth * 3) + (3 * stackSpacing) + leftEdge;
     auto build = sol->getBuild();
     // for (auto &b : build) {
     for (auto i = 0; i < build.size(); i++) {
@@ -288,7 +285,7 @@ void Window::printBuild() {
             attroff(COLOR_PAIR(5));
             attroff(A_BOLD);
             attroff(A_BLINK);
-            col += cardWidth + 1;
+            col += cardWidth + stackSpacing;
             continue;
         }
         Card topCard = b.back();
@@ -308,7 +305,7 @@ void Window::printBuild() {
         attroff(COLOR_PAIR(3));
         attroff(A_BOLD);
         attroff(A_BLINK);
-        col += cardWidth + 1;
+        col += cardWidth + stackSpacing;
     }
 }
 
