@@ -79,8 +79,8 @@ void Game::select() {
     }
 
     if (current.stack == Stack::TABLEAU && selected.stack == Stack::TABLEAU) {
-        const int pos = selected.index % 32;
-        if (sol.moveTabtoTab(selected.index / 32, pos, current.index / 32)) {
+        const int pos = selected.index % Position::magicNumber;
+        if (sol.moveTabtoTab(selected.index / Position::magicNumber, pos, current.index / Position::magicNumber)) {
             win.select({Stack::NONE, 0});
         }
         else {
@@ -90,13 +90,13 @@ void Game::select() {
     }
 
     if (current.stack == Stack::BUILD && selected.stack == Stack::TABLEAU) {
-        const Deck tab = sol.getTableaus()[selected.index / 32];
-        const int tabIdx = selected.index % 32;
+        const Deck tab = sol.getTableaus()[selected.index / Position::magicNumber];
+        const int tabIdx = selected.index % Position::magicNumber;
         if (tabIdx != tab.size() - 1) {
             // Cannot move to build unless bottom card in stack
             return;
         }
-        if (sol.moveTabToBuild(selected.index / 32, current.index)) {
+        if (sol.moveTabToBuild(selected.index / Position::magicNumber, current.index)) {
             win.select({Stack::NONE, 0});
         }
         else {
@@ -106,7 +106,7 @@ void Game::select() {
     }
 
     if (current.stack == Stack::TABLEAU && selected.stack == Stack::BUILD) {
-        if (sol.moveBuildToTab(selected.index, current.index / 32)) {
+        if (sol.moveBuildToTab(selected.index, current.index / Position::magicNumber)) {
             win.select({Stack::NONE, 0});
         }
         else {
@@ -116,7 +116,7 @@ void Game::select() {
     }
 
     if (current.stack == Stack::TABLEAU && selected.stack == Stack::DISCARD) {
-        if (sol.moveDiscToTab(current.index / 32)) {
+        if (sol.moveDiscToTab(current.index / Position::magicNumber)) {
             win.select({Stack::NONE, 0});
         }
         else {
@@ -138,7 +138,7 @@ void Game::select() {
 void Game::focusLastInTab(const int tabIdx) {
     const Deck tab = sol.getTableaus()[tabIdx];
     const int lastIndex = tab.size() > 0 ? tab.size() - 1 : 0;
-    win.focus({Stack::TABLEAU, (tabIdx * 32) + lastIndex});
+    win.focus({Stack::TABLEAU, (tabIdx * Position::magicNumber) + lastIndex});
 }
 
 void Game::up() {
@@ -166,9 +166,9 @@ void Game::up() {
         // else tab 0 focus deck, tab 1-2 focus discard
         // tab 3-6 focus build - 3
         {
-            const Deck tab = sol.getTableaus()[current.index / 32];
-            if (current.index % 32 != 0) {
-                for (auto i = (current.index % 32) - 1; i >= 0; i--) {
+            const Deck tab = sol.getTableaus()[current.index / Position::magicNumber];
+            if (current.index % Position::magicNumber != 0) {
+                for (auto i = (current.index % Position::magicNumber) - 1; i >= 0; i--) {
                     if (tab[i].getFacing() == Facing::FRONT) {
                         win.focus({Stack::TABLEAU, current.index - 1});
                         return;
@@ -176,7 +176,7 @@ void Game::up() {
                 }
             }
 
-            const int tabIdx = current.index / 32;
+            const int tabIdx = current.index / Position::magicNumber;
             switch (tabIdx) {
                 case 0:
                 win.focus({Stack::DECK, 0});
@@ -200,7 +200,7 @@ void Game::down() {
         case Stack::DISCARD:
         // Down from discard takes you to bottom of tab 2 if
         // if discard.size() != 3, else to bottom of tab 3
-        if (sol.getDeck().size() < 3) {
+        if (sol.getDiscard().size() < 3) {
             focusLastInTab(1);
             return;
         }
@@ -219,14 +219,14 @@ void Game::down() {
         // else tab 0 focus deck, tab 1, 2 focus discard
         // 3-6 focus build - 3
         {
-            const Deck tab = sol.getTableaus()[current.index / 32];
-            for (auto i = (current.index % 32) + 1; i < tab.size(); i++) {
+            const Deck tab = sol.getTableaus()[current.index / Position::magicNumber];
+            for (auto i = (current.index % Position::magicNumber) + 1; i < tab.size(); i++) {
                 if (tab[i].getFacing() == Facing::FRONT) {
                     win.focus({Stack::TABLEAU, current.index + 1});
                     return;
                 }
             }
-            const int tabIdx = current.index / 32;
+            const int tabIdx = current.index / Position::magicNumber;
             switch (tabIdx) {
                 case 0:
                 win.focus({Stack::DECK, 0});
@@ -236,7 +236,7 @@ void Game::down() {
                 win.focus({Stack::DISCARD, 0});
                 break;
                 default:
-                win.focus({Stack::BUILD, (current.index / 32) - 3});
+                win.focus({Stack::BUILD, (current.index / Position::magicNumber) - 3});
             }
         }
         break;
@@ -262,7 +262,7 @@ void Game::right() {
         break;
         case Stack::TABLEAU:
         {
-            const int tabIdx = current.index / 32;
+            const int tabIdx = current.index / Position::magicNumber;
             if (tabIdx == 6) {
                 focusLastInTab(0);
                 return;
@@ -291,7 +291,7 @@ void Game::left() {
         break;
         case Stack::TABLEAU:
         {
-            const int tabIdx = current.index / 32;
+            const int tabIdx = current.index / Position::magicNumber;
             if (tabIdx == 0) {
                 focusLastInTab(6);
                 return;
