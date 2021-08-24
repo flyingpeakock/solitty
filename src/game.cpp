@@ -59,8 +59,8 @@ void Game::mainLoop() {
 }
 
 void Game::select() {
-    Position current = win.getFocus(); // from
-    Position selected = win.getSelect(); // to
+    const Position current = win.getFocus(); // from
+    const Position selected = win.getSelect(); // to
 
     if (current.stack == Stack::DECK) {
         prev.push_back(sol);
@@ -82,7 +82,7 @@ void Game::select() {
     }
 
     if (current.stack == Stack::TABLEAU && selected.stack == Stack::TABLEAU) {
-        int pos = selected.index % 32;
+        const int pos = selected.index % 32;
         if (sol.moveTabtoTab(selected.index / 32, pos, current.index / 32)) {
             win.select({Stack::NONE, 0});
         }
@@ -90,8 +90,8 @@ void Game::select() {
     }
 
     if (current.stack == Stack::BUILD && selected.stack == Stack::TABLEAU) {
-        Deck tab = sol.getTableaus()[selected.index / 32];
-        int tabIdx = selected.index % 32;
+        const Deck tab = sol.getTableaus()[selected.index / 32];
+        const int tabIdx = selected.index % 32;
         if (tabIdx != tab.size() - 1) {
             // Cannot move to build unless bottom card in stack
             return;
@@ -154,7 +154,7 @@ void Game::up() {
         // else tab 0 focus deck, tab 1-2 focus discard
         // tab 3-6 focus build - 3
         {
-            Deck tab = sol.getTableaus()[current.index / 32];
+            const Deck tab = sol.getTableaus()[current.index / 32];
             if (current.index % 32 != 0) {
                 for (auto i = (current.index % 32) - 1; i >= 0; i--) {
                     if (tab[i].getFacing() == Facing::FRONT) {
@@ -207,7 +207,7 @@ void Game::down() {
         // else tab 0 focus deck, tab 1, 2 focus discard
         // 3-6 focus build - 3
         {
-            Deck tab = sol.getTableaus()[current.index / 32];
+            const Deck tab = sol.getTableaus()[current.index / 32];
             for (auto i = (current.index % 32) + 1; i < tab.size(); i++) {
                 if (tab[i].getFacing() == Facing::FRONT) {
                     win.focus({Stack::TABLEAU, current.index + 1});
