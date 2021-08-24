@@ -14,5 +14,5 @@ class Game {
     void left();
     void right();
     void select();
-    void focusLastInTab(int tabIdx);
+    void focusLastInTab(const int tabIdx);
 };

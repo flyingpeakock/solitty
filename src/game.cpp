@@ -4,9 +4,7 @@
 #include <chrono>
 #include <thread>
 
-Game::Game() : win(&sol){
-    win.print();
-}
+Game::Game() : win(&sol){}
 
 void Game::mainLoop() {
     bool playing = true;
@@ -125,16 +123,14 @@ void Game::select() {
     }
 }
 
-void Game::focusLastInTab(int tabIdx) {
-    Deck tab = sol.getTableaus()[tabIdx];
-    int lastIndex = tab.size() - 1;
-    if (lastIndex < 0)
-        lastIndex = 0;
+void Game::focusLastInTab(const int tabIdx) {
+    const Deck tab = sol.getTableaus()[tabIdx];
+    const int lastIndex = tab.size() - 1 > 0 ? tab.size() - 1 : 0;
     win.focus({Stack::TABLEAU, (tabIdx * 32) + lastIndex});
 }
 
 void Game::up() {
-    Position current = win.getFocus();
+    const Position current = win.getFocus();
     switch (current.stack) {
         case Stack::DECK:
         // Going up from deck places you in first tab bottom card
@@ -168,7 +164,7 @@ void Game::up() {
                 }
             }
 
-            int tabIdx = current.index / 32;
+            const int tabIdx = current.index / 32;
             switch (tabIdx) {
                 case 0:
                 win.focus({Stack::DECK, 0});
@@ -187,7 +183,7 @@ void Game::up() {
 }
 
 void Game::down() {
-    Position current = win.getFocus();
+    const Position current = win.getFocus();
     switch (current.stack) {
         case Stack::DISCARD:
         // Down from discard takes you to bottom of tab 2 if
@@ -218,7 +214,7 @@ void Game::down() {
                     return;
                 }
             }
-            int tabIdx = current.index / 32;
+            const int tabIdx = current.index / 32;
             switch (tabIdx) {
                 case 0:
                 win.focus({Stack::DECK, 0});
@@ -236,7 +232,7 @@ void Game::down() {
 }
 
 void Game::right() {
-    Position current = win.getFocus();
+    const Position current = win.getFocus();
     switch (current.stack) {
         case Stack::DECK:
         win.focus({Stack::DISCARD, 0});
@@ -254,7 +250,7 @@ void Game::right() {
         break;
         case Stack::TABLEAU:
         {
-            int tabIdx = current.index / 32;
+            const int tabIdx = current.index / 32;
             if (tabIdx == 6) {
                 focusLastInTab(0);
                 return;
@@ -266,7 +262,7 @@ void Game::right() {
 }
 
 void Game::left() {
-    Position current = win.getFocus();
+    const Position current = win.getFocus();
     switch (current.stack) {
         case Stack::BUILD:
         if (current.index > 0) {
@@ -283,12 +279,12 @@ void Game::left() {
         break;
         case Stack::TABLEAU:
         {
-            int tabIdx = current.index / 32;
-           if (tabIdx == 0) {
-               focusLastInTab(6);
-               return;
-           }
-           focusLastInTab(tabIdx - 1);
+            const int tabIdx = current.index / 32;
+            if (tabIdx == 0) {
+                focusLastInTab(6);
+                return;
+            }
+            focusLastInTab(tabIdx - 1);
         }
         break;
     }
