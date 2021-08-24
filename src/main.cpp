@@ -1,4 +1,3 @@
-#include <iostream>
 #include <locale.h>
 #include "game.h"
 

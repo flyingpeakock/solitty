@@ -12,8 +12,8 @@ class Stopwatch {
     public:
         static void count();
         Stopwatch();
-        void start();
-        void stop();
-        std::string timeTaken();
-        int totalSeconds();
+        static void start();
+        static void stop();
+        static std::string timeTaken();
+        static int totalSeconds();
 };
