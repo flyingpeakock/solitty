@@ -88,7 +88,7 @@ void Window::print() {
     refresh();
 }
 
-void Window::printDeck() {
+void Window::printDeck() const{
     int row = 0;
     std::wstringstream stream;
     Deck deck = sol->getDeck();
@@ -98,7 +98,7 @@ void Window::printDeck() {
     else {
         Card::printBack(stream);
     }
-    std::vector<std::wstring> strings = splitCardString(stream);
+    const std::vector<std::wstring> strings = splitCardString(stream);
 
     if (focused.stack == Stack::DECK) {
         attron(A_BOLD);
@@ -116,13 +116,13 @@ void Window::printDeck() {
     attroff(A_BLINK);
 }
 
-void Window::printDiscard() {
-    Deck discard = sol->getDiscard();
+void Window::printDiscard() const{
+    const Deck discard = sol->getDiscard();
     if (discard.size() == 0 && sol->getUsed() == 0) {
         // Print empty card
         std::wstringstream stream;
         Card::printEmpty(stream);
-        std::vector<std::wstring> strings = splitCardString(stream);
+        const std::vector<std::wstring> strings = splitCardString(stream);
         int row = 0;
         if (selected.stack == Stack::DISCARD) {
             attron(A_BLINK);
@@ -144,7 +144,7 @@ void Window::printDiscard() {
         // Print back of card
         std::wstringstream stream;
         Card::printBack(stream);
-        std::vector<std::wstring> strings = splitCardString(stream);
+        const std::vector<std::wstring> strings = splitCardString(stream);
         int row = 0; 
         if (selected.stack == Stack::DISCARD) {
             attron(A_BLINK);
@@ -167,7 +167,7 @@ void Window::printDiscard() {
         Card card = discard[i];
         std::wstringstream stream;
         card.print(stream);
-        std::vector<std::wstring> strings = splitCardString(stream);
+        const std::vector<std::wstring> strings = splitCardString(stream);
         int row = 0;
         if (card.color() == Color::BLACK) {
             attron(COLOR_PAIR(3));
@@ -193,17 +193,17 @@ void Window::printDiscard() {
     }
 }
 
-void Window::printTableaus() {
-    auto tabs = sol->getTableaus();
+void Window::printTableaus() const{
+    const auto tabs = sol->getTableaus();
     int col = leftEdge;
     for (auto i = 0; i < tabs.size(); i++) {
-        auto tab = tabs[i];
+        const auto tab = tabs[i];
         // Checking if any cards in tab
         int row = cardHeight + 1;
         if (tab.size() == 0) {
             std::wstringstream stream;
             Card::printEmpty(stream);
-            auto str = splitCardString(stream);
+            const auto str = splitCardString(stream);
             attron(COLOR_PAIR(5));
             if (focused.stack == Stack::TABLEAU && focused.index / 32 == i) {
                 attron(A_BOLD);
@@ -259,13 +259,13 @@ void Window::printTableaus() {
     }
 }
 
-void Window::printBuild() {
+void Window::printBuild() const{
     int row = 0;
     int col = (cardWidth * 3) + (3 * stackSpacing) + leftEdge;
-    auto build = sol->getBuild();
+    const auto build = sol->getBuild();
     // for (auto &b : build) {
     for (auto i = 0; i < build.size(); i++) {
-        auto b = build[i];
+        const auto b = build[i];
 
         if (focused.stack == Stack::BUILD && focused.index == i) {
             attron(A_BOLD);
@@ -277,7 +277,7 @@ void Window::printBuild() {
         if (b.size() == 0) {
             std::wstringstream stream;
             Card::printEmpty(stream);
-            auto str = splitCardString(stream);
+            const auto str = splitCardString(stream);
             attron(COLOR_PAIR(5));
             for (auto i = 0; i < str.size(); i++) {
                 mvaddwstr(row + i, col, str[i].c_str());
@@ -288,10 +288,10 @@ void Window::printBuild() {
             col += cardWidth + stackSpacing;
             continue;
         }
-        Card topCard = b.back();
+        const Card topCard = b.back();
         std::wstringstream stream;
         topCard.print(stream);
-        auto str = splitCardString(stream);
+        const auto str = splitCardString(stream);
         if (topCard.color() == Color::BLACK) {
             attron(COLOR_PAIR(3));
         }
@@ -317,16 +317,16 @@ void Window::select(Position pos) {
     selected = pos;
 }
 
-Position Window::getFocus() {
+Position Window::getFocus() const{
     return focused;
 }
 
-Position Window::getSelect() {
+Position Window::getSelect() const{
     return selected;
 }
 
 void Window::printMessage(std::string message) {
-    int length = message.size();
+    const int length = message.size();
     move(maxY / 2, (maxX - length) / 2);
     attron(COLOR_PAIR(1));
     attron(A_BOLD);

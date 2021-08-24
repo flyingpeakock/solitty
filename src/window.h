@@ -15,8 +15,8 @@ class Window {
     void focus(Position pos);
     void select(Position pos);
 
-    Position getFocus();
-    Position getSelect();
+    Position getFocus() const;
+    Position getSelect() const;
 
     void printMessage(std::string message);
 
@@ -32,12 +32,12 @@ class Window {
     int maxY, maxX;
     int leftEdge;
 
-    void printDeck();
-    void printTableaus();
-    void printBuild();
-    void printDiscard();
+    void printDeck() const;
+    void printTableaus() const;
+    void printBuild() const;
+    void printDiscard() const;
 
     void calcLeftEdge();
 
-    std::vector<std::wstring> splitCardString(std::wstringstream &stream);
+    static std::vector<std::wstring> splitCardString(std::wstringstream &stream);
 };
