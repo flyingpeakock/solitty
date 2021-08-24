@@ -8,8 +8,7 @@ Game::Game() : win(&sol){}
 
 void Game::mainLoop() {
     bool playing = true;
-    Stopwatch timer;
-    timer.start();
+    Stopwatch::start();
     while (!sol.isWon() && playing) {
         win.print();
         wchar_t input = getch();
@@ -45,7 +44,7 @@ void Game::mainLoop() {
             break;
         }
     }
-    timer.stop();
+    Stopwatch::stop();
     if (sol.isWon()) {
         while (sol.placeWinningBuild()) {
             win.select({Stack::NONE, 0});
@@ -53,7 +52,7 @@ void Game::mainLoop() {
             win.print();
             std::this_thread::sleep_for(std::chrono::milliseconds(sleepTime));
         }
-        win.printMessage(timer.timeTaken());
+        win.printMessage(Stopwatch::timeTaken());
         getch();
     }
 }
@@ -72,9 +71,6 @@ void Game::select() {
         win.select(current);
         return;
     }
-    else {
-        prev.push_back(sol);
-    }
 
     if (current == selected) {
         win.select({Stack::NONE, 0});
@@ -85,6 +81,7 @@ void Game::select() {
         const int pos = selected.index % 32;
         if (sol.moveTabtoTab(selected.index / 32, pos, current.index / 32)) {
             win.select({Stack::NONE, 0});
+            prev.push_back(sol);
         }
         return;
     }
@@ -98,6 +95,7 @@ void Game::select() {
         }
         if (sol.moveTabToBuild(selected.index / 32, current.index)) {
             win.select({Stack::NONE, 0});
+            prev.push_back(sol);
         }
         return;
     }
@@ -105,6 +103,7 @@ void Game::select() {
     if (current.stack == Stack::TABLEAU && selected.stack == Stack::BUILD) {
         if (sol.moveBuildToTab(selected.index, current.index / 32)) {
             win.select({Stack::NONE, 0});
+            prev.push_back(sol);
         }
         return;
     }
@@ -112,6 +111,7 @@ void Game::select() {
     if (current.stack == Stack::TABLEAU && selected.stack == Stack::DISCARD) {
         if (sol.moveDiscToTab(current.index / 32)) {
             win.select({Stack::NONE, 0});
+            prev.push_back(sol);
         }
         return;
     }
@@ -119,6 +119,7 @@ void Game::select() {
     if (current.stack == Stack::BUILD && selected.stack == Stack::DISCARD) {
         if (sol.moveDiscToBuild(current.index)) {
             win.select({Stack::NONE, 0});
+            prev.push_back(sol);
         }
     }
 }
