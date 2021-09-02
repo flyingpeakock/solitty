@@ -267,6 +267,10 @@ std::array<Deck, 7> Solitaire::getTableaus() const{
     return tableaus;
 }
 
+Deck Solitaire::getTableau(const int idx) const{
+    return tableaus[idx];
+}
+
 std::array<Deck, 4> Solitaire::getBuild() const{
     return build;
 }

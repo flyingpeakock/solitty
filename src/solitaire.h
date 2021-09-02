@@ -16,6 +16,7 @@ class Solitaire {
 
     Deck getDeck() const;
     std::array<Deck, 7> getTableaus() const;
+    Deck getTableau(const int idx) const;
     std::array<Deck, 4> getBuild() const;
     Deck getDiscard() const;
     int getUsed() const;
