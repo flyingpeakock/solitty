@@ -1,6 +1,7 @@
 #pragma once
 #include "Config.h"
 #include <vector>
+#include <deque>
 #include <iosfwd>
 #include <string>
 
@@ -41,4 +42,4 @@ class Card {
     static void printEmptyRow(std::wostream &stream, const int lines);
 };
 
-typedef std::vector<Card> Deck;
+typedef std::deque<Card> Deck;
