@@ -136,8 +136,8 @@ void Game::select() {
 }
 
 void Game::focusLastInTab(const int tabIdx) {
-    const Deck tab = sol.getTableaus()[tabIdx];
-    const int lastIndex = tab.size() > 0 ? tab.size() - 1 : 0;
+    const int size = sol.getTableaus()[tabIdx].size();
+    const int lastIndex = size > 0 ? size - 1 : 0;
     win.focus({Stack::TABLEAU, (tabIdx * Position::magicNumber) + lastIndex});
 }
 
