@@ -2,6 +2,7 @@
 #include <ncurses.h>
 #include <chrono>
 #include <thread>
+#include <sstream>
 
 Game::Game() : win(&sol){}
 
@@ -49,9 +50,12 @@ void Game::mainLoop() {
             win.print();
             std::this_thread::sleep_for(std::chrono::milliseconds(sleepTime));
         }
-        win.printMessage(Stopwatch::timeTaken());
-        getch();
     }
+    std::stringstream message;
+    message << "Points: " << sol.getPoints() << ". ";
+    message << Stopwatch::timeTaken();
+    win.printMessage(message.str());
+    getch();
 }
 
 void Game::select() {
