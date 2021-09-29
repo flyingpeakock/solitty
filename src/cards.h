@@ -27,6 +27,7 @@ class Card {
     void flipUp();
     Facing getFacing() const;
     static void printBack(std::wostream &stream);
+    bool operator<(const Card &right) const;
 
     private:
     Facing facing;

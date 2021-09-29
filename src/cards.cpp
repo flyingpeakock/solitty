@@ -162,3 +162,10 @@ Suit Card::shape() const{
 Facing Card::getFacing() const{
     return facing;
 }
+
+bool Card::operator<(const Card &right) const {
+    if (suit == right.suit) {
+        return value < right.value;
+    }
+    return (suit < right.suit);
+}
