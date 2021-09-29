@@ -288,6 +288,7 @@ bool Solitaire::isWon() {
             }
         }
         timer.stop();
+        points = getPoints();
         playing = false;
         points = (points - timer.totalSeconds()) * 10;
         won = true;
@@ -359,7 +360,13 @@ bool Solitaire::placeWinningBuild() {
 }
 
 int Solitaire::getPoints() {
-    return points;
+    if (!playing) {
+        return points;
+    }
+
+    int penalty = timer.totalSeconds() / 15;
+    int adjustedPoints = points - penalty;
+    return adjustedPoints > 0 ? adjustedPoints : 0;
 }
 
 void Solitaire::startPlaying() {
