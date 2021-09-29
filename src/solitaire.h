@@ -1,6 +1,7 @@
 #pragma once
 #include "cards.h"
 #include <array>
+#include <map>
 
 class Solitaire {
     public:
@@ -20,12 +21,15 @@ class Solitaire {
     std::array<Deck, 4> getBuild() const;
     Deck getDiscard() const;
     int getUsed() const;
+    int getPoints();
 
     bool placeWinningBuild();
 
     private:
+    int points;
     std::array<Deck, 7> tableaus;
     std::array<Deck, 4> build;
+    std::map<Card, bool> beenInBuild;
     Deck deck;
     Deck discard;
     Deck usedDiscard;
