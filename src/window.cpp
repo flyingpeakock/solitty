@@ -339,7 +339,7 @@ void Window::printMessage(std::string message) {
 
 void Window::printPoints() const {
     std::stringstream sstream;
-    sstream << sol->getPoints();
+    sstream << sol->getPoints(true);
     move(maxY - 1, 1);
     attron(COLOR_PAIR(1));
     attron(A_BOLD);

@@ -52,8 +52,8 @@ void Game::mainLoop() {
         }
     }
     std::stringstream message;
-    message << "Points: " << sol.getPoints() << ". ";
-    message << Stopwatch::timeTaken();
+    message << "Points: " << sol.getPoints(true) << ". ";
+    message << Stopwatch::timeTaken() << '.';
     win.printMessage(message.str());
     getch();
 }

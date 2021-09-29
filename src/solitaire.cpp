@@ -288,9 +288,11 @@ bool Solitaire::isWon() {
             }
         }
         timer.stop();
-        points = getPoints();
-        playing = false;
-        points = (points - timer.totalSeconds()) * 10;
+        if (playing) {
+            points = getPoints();
+            playing = false;
+            points = (points - timer.totalSeconds()) * 10;
+        }
         won = true;
         return true;
     }
@@ -360,7 +362,11 @@ bool Solitaire::placeWinningBuild() {
 }
 
 int Solitaire::getPoints() {
-    if (!playing) {
+    return getPoints(false);
+}
+
+int Solitaire::getPoints(bool forcePlaying) {
+    if (!playing && !forcePlaying) {
         return points;
     }
 

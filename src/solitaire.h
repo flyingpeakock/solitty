@@ -26,6 +26,7 @@ class Solitaire {
     Deck getDiscard() const;
     int getUsed() const;
     int getPoints();
+    int getPoints(bool forcePlaying);
 
     bool placeWinningBuild();
 
