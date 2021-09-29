@@ -36,6 +36,7 @@ class Window {
     void printTableaus() const;
     void printBuild() const;
     void printDiscard() const;
+    void printPoints() const;
 
     void calcLeftEdge();
 

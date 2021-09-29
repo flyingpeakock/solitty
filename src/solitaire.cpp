@@ -5,6 +5,7 @@
 
 Solitaire::Solitaire() {
     won = false;
+    playing = false;
     deck = buildDeck();
     points = 0;
     buildTableaus();
@@ -12,6 +13,10 @@ Solitaire::Solitaire() {
         card.flipUp(); // Flipping entire deck up since window
                        // explicitly prints back anyway
     }
+}
+
+bool Solitaire::isPlaying() {
+    return playing;
 }
 
 Deck Solitaire::buildDeck() {
@@ -91,7 +96,7 @@ bool Solitaire::moveTabtoTab(const int fromTab, const int pos, const int toTab) 
             tableaus[fromTab].erase(tableaus[fromTab].begin() + pos);
         }
         if (tableaus[fromTab].back().getFacing() == Facing::BACK) {
-            points += 10;
+            points += 5;
         }
         tableaus[fromTab].back().flipUp();
         return true;
@@ -115,7 +120,7 @@ bool Solitaire::moveTabtoTab(const int fromTab, const int pos, const int toTab) 
 
     // Flipping newly uncovered card
     if (tableaus[fromTab].back().getFacing() == Facing::BACK) {
-        points += 10;
+        points += 5;
     }
     tableaus[fromTab].back().flipUp();
     return true;
@@ -135,7 +140,7 @@ bool Solitaire::moveDiscToBuild(const int toBuild) {
         build[toBuild].push_back(from);
         discard.pop_back();
         beenInBuild[from] = true;
-        points += 5;
+        points += 10;
         return true;
     }
 
@@ -153,7 +158,7 @@ bool Solitaire::moveDiscToBuild(const int toBuild) {
     build[toBuild].push_back(from);
     discard.pop_back();
     beenInBuild[from] = true;
-    points += 5;
+    points += 10;
     return true;
 }
 
@@ -167,11 +172,11 @@ bool Solitaire::moveTabToBuild(const int fromTab, const int toBuild) {
         build[toBuild].push_back(from);
         tableaus[fromTab].pop_back();
         if (tableaus[fromTab].back().getFacing() == Facing::BACK) {
-            points += 10;
+            points += 5;
         }
         tableaus[fromTab].back().flipUp();
         if (!beenInBuild[from]) {
-            points += 8;
+            points += 10;
         }
         beenInBuild[from] = true;
         return true;
@@ -191,11 +196,11 @@ bool Solitaire::moveTabToBuild(const int fromTab, const int toBuild) {
     build[toBuild].push_back(from);
     tableaus[fromTab].pop_back();
     if (tableaus[fromTab].back().getFacing() == Facing::BACK) {
-        points += 10;
+        points += 5;
     }
     tableaus[fromTab].back().flipUp();
     if (!beenInBuild[from]) {
-        points += 8;
+        points += 10;
     }
     beenInBuild[from] = true;
     return true;
@@ -214,6 +219,7 @@ bool Solitaire::moveBuildToTab(const int fromBuild, const int toTab) {
         }
         tableaus[toTab].push_back(from);
         build[fromBuild].pop_back();
+        beenInBuild[from] = true;
         return true;
     }
 
@@ -231,6 +237,7 @@ bool Solitaire::moveBuildToTab(const int fromBuild, const int toTab) {
 
     tableaus[toTab].push_back(from);
     build[fromBuild].pop_back();
+    beenInBuild[from] = true;
     return true;
 }
 
@@ -280,6 +287,9 @@ bool Solitaire::isWon() {
                 }
             }
         }
+        timer.stop();
+        playing = false;
+        points = (points - timer.totalSeconds()) * 10;
         won = true;
         return true;
     }
@@ -350,4 +360,14 @@ bool Solitaire::placeWinningBuild() {
 
 int Solitaire::getPoints() {
     return points;
+}
+
+void Solitaire::startPlaying() {
+    playing = true;
+    timer.start();
+}
+
+void Solitaire::stopPlaying() {
+    playing = false;
+    timer.stop();
 }

@@ -1,11 +1,15 @@
 #pragma once
 #include "cards.h"
+#include "Stopwatch.h"
 #include <array>
 #include <map>
 
 class Solitaire {
     public:
     Solitaire();
+    void startPlaying();
+    void stopPlaying();
+    bool isPlaying();
     bool isWon();
     void placeDiscard();
 
@@ -33,6 +37,8 @@ class Solitaire {
     Deck deck;
     Deck discard;
     Deck usedDiscard;
+    Stopwatch timer;
+    bool playing;
 
     bool won;
 

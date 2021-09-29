@@ -1,5 +1,4 @@
 #include "game.h"
-#include "Stopwatch.h"
 #include <ncurses.h>
 #include <chrono>
 #include <thread>
@@ -7,9 +6,8 @@
 Game::Game() : win(&sol){}
 
 void Game::mainLoop() {
-    bool playing = true;
-    Stopwatch::start();
-    while (!sol.isWon() && playing) {
+    sol.startPlaying();
+    while (!sol.isWon() && sol.isPlaying()) {
         win.print();
         wchar_t input = getch();
         switch (input) {
@@ -30,7 +28,7 @@ void Game::mainLoop() {
             right();
             break;
             case Keybinds::QUIT:
-            playing = false;
+            sol.stopPlaying();
             break;
             case Keybinds::SELECT:
             select();
@@ -44,7 +42,6 @@ void Game::mainLoop() {
             break;
         }
     }
-    Stopwatch::stop();
     if (sol.isWon()) {
         while (sol.placeWinningBuild()) {
             win.select({Stack::NONE, 0});

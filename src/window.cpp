@@ -85,6 +85,7 @@ void Window::print() {
     printDiscard();
     printTableaus();
     printBuild();
+    printPoints();
     refresh();
 }
 
@@ -334,4 +335,15 @@ void Window::printMessage(std::string message) {
     attroff(COLOR_PAIR(1));
     attroff(A_BOLD);
     refresh();
+}
+
+void Window::printPoints() const {
+    std::stringstream sstream;
+    sstream << sol->getPoints();
+    move(maxY - 1, 1);
+    attron(COLOR_PAIR(1));
+    attron(A_BOLD);
+    addstr(sstream.str().c_str());
+    attroff(COLOR_PAIR(1));
+    attroff(A_BOLD);
 }
