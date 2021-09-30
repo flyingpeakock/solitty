@@ -8,6 +8,7 @@ Solitaire::Solitaire() {
     playing = false;
     deck = buildDeck();
     points = 0;
+    winBonus = 0;
     buildTableaus();
     for (auto &card : deck) {
         card.flipUp(); // Flipping entire deck up since window
@@ -288,11 +289,10 @@ bool Solitaire::isWon() {
             }
         }
         timer.stop();
-        if (playing) {
-            points = getPoints();
-            playing = false;
-            points = (points - timer.totalSeconds()) * 10;
+        if (winBonus == 0) {
+            winBonus = (getPoints() - timer.totalSeconds()) * 10;
         }
+        playing = false;
         won = true;
         return true;
     }
@@ -370,8 +370,9 @@ int Solitaire::getPoints(bool forcePlaying) {
         return points;
     }
 
-    int penalty = timer.totalSeconds() / 15;
+    int penalty = (timer.totalSeconds() / 15) * 2;
     int adjustedPoints = points - penalty;
+    adjustedPoints += winBonus;
     return adjustedPoints > 0 ? adjustedPoints : 0;
 }
 

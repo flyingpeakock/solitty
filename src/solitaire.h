@@ -32,6 +32,7 @@ class Solitaire {
 
     private:
     int points;
+    int winBonus;
     std::array<Deck, 7> tableaus;
     std::array<Deck, 4> build;
     std::map<Card, bool> beenInBuild;
