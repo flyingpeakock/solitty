@@ -367,7 +367,7 @@ int Solitaire::getPoints() {
 
 int Solitaire::getPoints(bool forcePlaying) {
     if (!playing && !forcePlaying) {
-        return points;
+        return points + winBonus;
     }
 
     int penalty = (timer.totalSeconds() / 15) * 2;
