@@ -6,6 +6,8 @@
 
 Game::Game() : win(&sol){}
 
+Game::Game(Solitaire s) : sol(s), win(&sol){}
+
 void Game::mainLoop() {
     sol.startPlaying();
     while (!sol.isWon() && sol.isPlaying()) {

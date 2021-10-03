@@ -4,6 +4,7 @@
 class Game {
     public:
     Game();
+    Game(Solitaire s);
     void mainLoop();
     private:
     Solitaire sol;
