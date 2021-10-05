@@ -34,7 +34,7 @@ void Window::init() {
         init_pair(2, RED_CARD_COLOR, CARD_BACKGROUND_COLOR);
         init_pair(3, BLACK_CARD_COLOR, CARD_BACKGROUND_COLOR);
         init_pair(4, BACK_CARD_COLOR, CARD_BACKGROUND_COLOR);
-        init_pair(5, EMPTY_CARD_COLOR, CARD_BACKGROUND_COLOR);
+        init_pair(5, EMPTY_CARD_COLOR, BACKGROUND_COLOR);
     }
     getmaxyx(stdscr, maxY, maxX);
     calcLeftEdge();
