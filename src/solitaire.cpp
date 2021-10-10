@@ -339,7 +339,6 @@ bool Solitaire::placeWinningBuild() {
     }
 
     if (tabIdx == -1) {
-        winBonus = (getPoints() - timer.totalSeconds()) * 10;
         return false;
     }
 
