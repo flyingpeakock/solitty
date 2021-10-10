@@ -8,7 +8,7 @@ Game::Game() : win(&sol){}
 
 Game::Game(Solitaire s) : sol(s), win(&sol){}
 
-void Game::mainLoop() {
+bool Game::mainLoop() {
     sol.startPlaying();
     while (!sol.isWon() && sol.isPlaying()) {
         win.print();
@@ -43,6 +43,8 @@ void Game::mainLoop() {
             sol = prev.back();
             prev.pop_back();
             break;
+            case Keybinds::TOP:
+            top();
         }
     }
     if (sol.isWon()) {
@@ -58,6 +60,7 @@ void Game::mainLoop() {
     message << Stopwatch::timeTaken() << '.';
     win.printMessage(message.str());
     getch();
+    return playAgain();
 }
 
 void Game::select() {
@@ -303,4 +306,31 @@ void Game::left() {
         }
         break;
     }
+}
+
+void Game::top() {
+    const Position current = win.getFocus();
+    if (current.stack != Stack::TABLEAU) {
+        return;
+    }
+
+    const int col = current.index / current.magicNumber;
+    const Deck tab = sol.getTableau(col);
+    for (auto i = 0; i < tab.size(); i++) {
+        if (tab[i].getFacing() == Facing::FRONT) {
+            const Position top = {Stack::TABLEAU, col*Position::magicNumber + i};
+            win.focus(top);
+            return;
+        }
+    }
+}
+
+bool Game::playAgain() {
+    win.print(); // Clearing any message already there
+    win.printMessage("Play again? y/N");
+    char ans = getch();
+    if (ans == 'y' || ans == 'Y') {
+        return true;
+    }
+    return false;
 }
