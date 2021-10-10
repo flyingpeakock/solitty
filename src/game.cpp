@@ -43,6 +43,8 @@ void Game::mainLoop() {
             sol = prev.back();
             prev.pop_back();
             break;
+            case Keybinds::TOP:
+            top();
         }
     }
     if (sol.isWon()) {
@@ -302,5 +304,22 @@ void Game::left() {
             focusLastInTab(tabIdx - 1);
         }
         break;
+    }
+}
+
+void Game::top() {
+    const Position current = win.getFocus();
+    if (current.stack != Stack::TABLEAU) {
+        return;
+    }
+
+    const int col = current.index / current.magicNumber;
+    const Deck tab = sol.getTableau(col);
+    for (auto i = 0; i < tab.size(); i++) {
+        if (tab[i].getFacing() == Facing::FRONT) {
+            const Position top = {Stack::TABLEAU, col*Position::magicNumber + i};
+            win.focus(top);
+            return;
+        }
     }
 }
