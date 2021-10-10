@@ -5,7 +5,7 @@ class Game {
     public:
     Game();
     Game(Solitaire s);
-    void mainLoop();
+    bool mainLoop();
     private:
     Solitaire sol;
     std::vector<Solitaire> prev;
@@ -17,4 +17,5 @@ class Game {
     void select();
     void focusLastInTab(const int tabIdx);
     void top();
+    bool playAgain();
 };

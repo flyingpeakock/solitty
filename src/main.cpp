@@ -2,6 +2,10 @@
 #include "game.h"
 
 int main(int arc, char * argv[]) {
-    Game g;
-    g.mainLoop();
+    while (true) {
+        Game g;
+        if (!g.mainLoop()) {
+            break;
+        }
+    }
 }

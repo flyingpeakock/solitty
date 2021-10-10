@@ -8,7 +8,7 @@ Game::Game() : win(&sol){}
 
 Game::Game(Solitaire s) : sol(s), win(&sol){}
 
-void Game::mainLoop() {
+bool Game::mainLoop() {
     sol.startPlaying();
     while (!sol.isWon() && sol.isPlaying()) {
         win.print();
@@ -60,6 +60,7 @@ void Game::mainLoop() {
     message << Stopwatch::timeTaken() << '.';
     win.printMessage(message.str());
     getch();
+    return playAgain();
 }
 
 void Game::select() {
@@ -322,4 +323,14 @@ void Game::top() {
             return;
         }
     }
+}
+
+bool Game::playAgain() {
+    win.print(); // Clearing any message already there
+    win.printMessage("Play again? y/N");
+    char ans = getch();
+    if (ans == 'y' || ans == 'Y') {
+        return true;
+    }
+    return false;
 }
