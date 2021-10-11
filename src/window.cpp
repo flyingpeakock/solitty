@@ -327,13 +327,20 @@ Position Window::getSelect() const{
 }
 
 void Window::printMessage(std::string message) {
-    const int length = message.size();
-    move(maxY / 2, (maxX - length) / 2);
+    std::vector<std::string> lines;
+    std::stringstream ss(message);
+    std::string line;
+    while(std::getline(ss, line, '\n')) {
+        lines.push_back(line);
+    }
+    int row = (maxY / 2) - (lines.size() / 2);
     attron(COLOR_PAIR(1));
     attron(A_BOLD);
-    addstr(message.c_str());
-    attroff(COLOR_PAIR(1));
-    attroff(A_BOLD);
+    for (auto str : lines) {
+        const int length = str.size();
+        move(row++, (maxX - length) / 2);
+        addstr(str.c_str());
+    }
     refresh();
 }
 

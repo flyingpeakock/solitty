@@ -58,8 +58,8 @@ bool Game::mainLoop() {
     std::stringstream message;
     message << "Points: " << sol.getPoints(true) << ". ";
     message << Stopwatch::timeTaken() << '.';
+    message << "\nPlay again? y/N";
     win.printMessage(message.str());
-    getch();
     return playAgain();
 }
 
@@ -326,8 +326,6 @@ void Game::top() {
 }
 
 bool Game::playAgain() {
-    win.print(); // Clearing any message already there
-    win.printMessage("Play again? y/N");
     char ans = getch();
     if (ans == 'y' || ans == 'Y') {
         return true;
