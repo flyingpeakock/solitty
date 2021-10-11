@@ -67,5 +67,5 @@ std::string Stopwatch::timeTaken() {
 }
 
 int Stopwatch::totalSeconds() {
-    return hours * 3600 + minutes * 60 + seconds;
+    return (hours * 3600) + (minutes * 60) + seconds;
 }

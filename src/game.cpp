@@ -48,9 +48,9 @@ bool Game::mainLoop() {
         }
     }
     if (sol.isWon()) {
+        win.select({Stack::NONE, 0});
+        win.focus({Stack::NONE, 0});
         while (sol.placeWinningBuild()) {
-            win.select({Stack::NONE, 0});
-            win.focus({Stack::NONE, 0});
             win.print();
             std::this_thread::sleep_for(std::chrono::milliseconds(sleepTime));
         }
