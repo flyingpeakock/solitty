@@ -16,4 +16,5 @@ class Stopwatch {
         static void stop();
         static std::string timeTaken();
         static int totalSeconds();
+        static void reset();
 };
