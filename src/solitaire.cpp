@@ -14,6 +14,7 @@ Solitaire::Solitaire() {
         card.flipUp(); // Flipping entire deck up since window
                        // explicitly prints back anyway
     }
+    timer.reset();
 }
 
 bool Solitaire::isPlaying() {
@@ -289,7 +290,6 @@ bool Solitaire::isWon() {
             }
         }
         timer.stop();
-        winBonus = (getPoints() - timer.totalSeconds()) * 10;
         playing = false;
         won = true;
         return true;
@@ -339,6 +339,7 @@ bool Solitaire::placeWinningBuild() {
     }
 
     if (tabIdx == -1) {
+        winBonus = (getPoints() - timer.totalSeconds()) * 10;
         return false;
     }
 
@@ -356,6 +357,7 @@ bool Solitaire::placeWinningBuild() {
             return true;
         }
     }
+    winBonus = (getPoints() - timer.totalSeconds()) * 10;
     return false;
 }
 
