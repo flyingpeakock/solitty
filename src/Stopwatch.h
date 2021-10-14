@@ -6,9 +6,7 @@ class Stopwatch {
     private:
         static bool running;
         static std::thread counter;
-        static int seconds;
-        static int minutes;
-        static int hours;
+        static int milliseconds, seconds, minutes, hours, days, weeks;
     public:
         static void count();
         Stopwatch();
