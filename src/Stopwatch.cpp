@@ -5,6 +5,7 @@
 Stopwatch::Stopwatch(){
     running = false;
     counter;
+    milliseconds = 0;
     seconds = 0;
     minutes = 0;
     hours = 0;
@@ -13,23 +14,25 @@ Stopwatch::Stopwatch(){
 }
 
 Stopwatch::Stopwatch(const Stopwatch &obj) {
-    running = false;
+    running = obj.running;
     counter;
-    seconds = 0;
-    minutes = 0;
-    hours = 0;
-    days = 0;
-    weeks = 0;
+    milliseconds = obj.milliseconds;
+    seconds = obj.seconds;
+    minutes = obj.minutes;
+    hours = obj.hours;
+    days = obj.days;
+    weeks = obj.weeks;
 }
 
 Stopwatch &Stopwatch::operator=(const Stopwatch &obj) {
-    running = false;
+    running = obj.running;
     counter;
-    seconds = 0;
-    minutes = 0;
-    hours = 0;
-    days = 0;
-    weeks = 0;
+    milliseconds = obj.milliseconds;
+    seconds = obj.seconds;
+    minutes = obj.minutes;
+    hours = obj.hours;
+    days = obj.days;
+    weeks = obj.weeks;
     return *this;
 }
 
@@ -50,8 +53,8 @@ void Stopwatch::count() {
     while (running) {
         std::this_thread::sleep_for(std::chrono::milliseconds(1));
         if (milliseconds == 1000) {
-            seconds++;
             milliseconds = 0;
+            seconds++;
         }
         else if (seconds == 60) {
             seconds = 0;
