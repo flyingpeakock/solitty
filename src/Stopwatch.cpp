@@ -2,15 +2,35 @@
 #include <chrono>
 #include <sstream>
 
-bool Stopwatch::running = false;
-std::thread Stopwatch::counter;
-int Stopwatch::seconds = 0;
-int Stopwatch::minutes = 0;
-int Stopwatch::hours = 0;
-int Stopwatch::days = 0;
-int Stopwatch::weeks = 0;
-
 Stopwatch::Stopwatch(){
+    running = false;
+    counter;
+    seconds = 0;
+    minutes = 0;
+    hours = 0;
+    days = 0;
+    weeks = 0;
+}
+
+Stopwatch::Stopwatch(const Stopwatch &obj) {
+    running = false;
+    counter;
+    seconds = 0;
+    minutes = 0;
+    hours = 0;
+    days = 0;
+    weeks = 0;
+}
+
+Stopwatch &Stopwatch::operator=(const Stopwatch &obj) {
+    running = false;
+    counter;
+    seconds = 0;
+    minutes = 0;
+    hours = 0;
+    days = 0;
+    weeks = 0;
+    return *this;
 }
 
 void Stopwatch::start() {
@@ -18,7 +38,7 @@ void Stopwatch::start() {
         return;
     }
     running = true;
-    counter = std::thread(&count);
+    counter = std::thread(&Stopwatch::count, this);
 }
 
 void Stopwatch::stop() {
@@ -29,8 +49,9 @@ void Stopwatch::stop() {
 void Stopwatch::count() {
     while (running) {
         std::this_thread::sleep_for(std::chrono::milliseconds(1));
-        if (milliseconds = 1000) {
+        if (milliseconds == 1000) {
             seconds++;
+            milliseconds = 0;
         }
         else if (seconds == 60) {
             seconds = 0;
@@ -49,7 +70,7 @@ void Stopwatch::count() {
             weeks++;
         }
         else {
-            seconds++;
+            milliseconds++;
         }
     }
 }
@@ -67,7 +88,7 @@ std::string Stopwatch::timeTaken() {
     if (days > 1) {
         timeStr << days << " Days ";
     }
-    else if (dhays == 1) {
+    else if (days == 1) {
         timeStr << days << " Day ";
     }
     if (hours > 1) {

@@ -57,7 +57,7 @@ bool Game::mainLoop() {
     }
     std::stringstream message;
     message << "Points: " << sol.getPoints(true) << ". ";
-    message << Stopwatch::timeTaken() << '.';
+    message << sol.timePlayed() << '.';
     message << "\nPlay again? y/N";
     win.printMessage(message.str());
     return playAgain();
