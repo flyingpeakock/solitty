@@ -346,7 +346,7 @@ void Window::printMessage(std::string message) {
 
 void Window::printPoints() const {
     std::stringstream sstream;
-    sstream << sol->timePlayed();
+    sstream << sol->getPoints();
     move(maxY - 1, 1);
     attron(COLOR_PAIR(1));
     attron(A_BOLD);
