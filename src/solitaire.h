@@ -12,7 +12,7 @@ class Solitaire {
     bool isPlaying();
     bool isWon();
     void placeDiscard();
-    int timePlayed();
+    std::string timePlayed();
 
     bool moveTabtoTab(const int fromTab, const int pos, const int toTab);
     bool moveTabToBuild(const int fromTab, const int toBuild);

@@ -385,6 +385,7 @@ void Solitaire::stopPlaying() {
     playing = false;
     timer.stop();
 }
- int Solitaire::timePlayed() {
-     return timer.totalSeconds();
- }
+
+std::string Solitaire::timePlayed() {
+     return timer.timeTaken();
+}
