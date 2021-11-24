@@ -3,6 +3,7 @@
 #include <chrono>
 #include <thread>
 #include <sstream>
+#include <map>
 
 Game::Game() : win(&sol){}
 
@@ -12,7 +13,7 @@ bool Game::mainLoop() {
     sol.startPlaying();
     while (!sol.isWon() && sol.isPlaying()) {
         win.print();
-        wchar_t input = getch();
+        const wchar_t input = getch();
         switch (input) {
             case Keybinds::DOWN:
             case KEY_DOWN:
@@ -45,6 +46,11 @@ bool Game::mainLoop() {
             break;
             case Keybinds::TOP:
             top();
+            default:
+            if (isCardValue(input)) {
+                findAndFocusCard(input);
+            }
+            break;
         }
     }
     if (sol.isWon()) {
@@ -331,4 +337,59 @@ bool Game::playAgain() {
         return true;
     }
     return false;
+}
+
+bool Game::isCardValue(const wchar_t val) const {
+    if ('0' < val && '9' >= val) {
+        return true;
+    }
+    if ('j' == val || 'J' == val) {
+        // Will only work with J unless default down key is changed
+        return true;
+    }
+    if ('q' == val || 'Q' == val) {
+        // Will only work with Q unless default quit key is changed
+        return true;
+    }
+    if ('k' == val || 'K' == val) {
+        // Will only work with K unless default up key is changed
+        return true;
+    }
+    return false;
+}
+
+void Game::findAndFocusCard(const wchar_t input) {
+    // Ace is impossible to find,
+    // wont be used since it's always at the bottom
+    // 10 is found by 1
+    const auto focus = win.getFocus();
+    if (focus.stack != Stack::TABLEAU) {
+        return;
+    }
+    const int tabIdx = focus.index / focus.magicNumber;
+    auto currentTab = sol.getTableau(tabIdx);
+    std::map<wchar_t, int> m {
+        {'1', 10},
+        {'2', 2},
+        {'3', 3},
+        {'4', 4},
+        {'5', 5},
+        {'6', 6},
+        {'7', 7},
+        {'8', 8},
+        {'9', 9},
+        {'j', 11},
+        {'J', 11},
+        {'q', 12},
+        {'Q', 12},
+        {'k', 13},
+        {'K', 13}
+    };
+    for (int i = 0; i < currentTab.size(); i++) {
+        if (currentTab[i].rank() == m[input] && currentTab[i].getFacing() == Facing::FRONT) {
+            const Position newFocus = {Stack::TABLEAU, (tabIdx*Position::magicNumber) + i};
+            win.focus(newFocus);
+            return;
+        }
+    }
 }

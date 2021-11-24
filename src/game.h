@@ -15,7 +15,9 @@ class Game {
     void left();
     void right();
     void select();
+    void findAndFocusCard(const wchar_t input);
     void focusLastInTab(const int tabIdx);
     void top();
     bool playAgain();
+    bool isCardValue(const wchar_t val) const;
 };
