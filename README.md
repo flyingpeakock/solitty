@@ -1,6 +1,6 @@
 # Solitty
 
-Simple ncurses program to play sudoku in the terminal
+Simple ncurses program to play solitaire in the terminal
 written entirely in C++
 
 ## How to Play
